@@ -13,7 +13,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 <img src="images/minwaiphyo.png" width="200px">
 
-[[github](https://github.com/johndoe)]
+[[github](https://github.com/minwaiphyo)]
 * Role: Code quality
 * Responsibility: Looks after code quality, ensures adherence to coding standards, etc.
 
@@ -42,22 +42,11 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: Data
 
-### Jean Doe
+### Nicholas Kee
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/frankwotfurters.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
-
-### James Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/frankwotfurters)]
 
 * Role: Developer
-* Responsibilities: UI
+* Responsibilities: Backend Logic
