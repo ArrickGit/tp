@@ -9,15 +9,24 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
+
 ### Min Wai Phyo
 
 <img src="images/minwaiphyo.png" width="200px">
 
 [[github](https://github.com/johndoe)]
-
-
 * Role: Code quality
 * Responsibility: Looks after code quality, ensures adherence to coding standards, etc.
+
+<img src="images/mashmllo.png" width="200px">
+
+[[github](https://github.com/mashmllo)]
+* Role: Integration
+* Responsibility: In charge of versioning of the code, maintaining the code repository, integrating various parts of the software to create a whole.
+
+
+
+
 
 ### Jane Doe
 
