@@ -262,7 +262,9 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
+* is an in-house technical recruiter at Singapore tech company or startup
+* manages multiple engineering candidates across multiple job openings at any time
+* needs to quickly access and update candidate profiles during hiring discussions
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
