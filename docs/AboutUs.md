@@ -9,7 +9,6 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-=======
 ### Min Wai Phyo
 
 <img src="images/minwaiphyo.png" width="200px">
@@ -18,6 +17,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Code quality
 * Responsibility: Looks after code quality, ensures adherence to coding standards, etc.
 
+### Sim Ying Zhong Bryan
 <img src="images/mashmllo.png" width="200px">
 
 [[github](https://github.com/mashmllo)]
