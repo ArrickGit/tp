@@ -278,14 +278,19 @@ interview progress, referrals and availability, enabling recruiters to quickly f
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
-| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
+| Priority | As a …​                 | I want to …​                                          | So that I can…​                                                        |
+| ----- |-------------------------|-------------------------------------------------------|------------------------------------------------------------------------|
+| `* * *` | forgetful techical recuiter | see usage instructions                                | refer to instructions when I forget how to use the App                 |
+| `* * *` | techical recuiter           | add a new person                                      |                                                                        |
+| `* * *` | techical recuiter           | delete a person                                       | remove entries that I no longer need                                   |
+| `* * *` | techical recuiter           | find a person by name                                 | locate details of persons without having to go through the entire list |
+| `* *` | techical recuiter           | filter candidates by interview status                 | see which interviewees have not been interviewed                       |
+| `* *`    | techical recuiter           | search candidates by skills                           | save time performing repetitive tasks                                  |
+| `* *`   | techical recuiter       | search candidates using keywords or technical skills  | locate relevant contacts                                               |
+| `* *`   | techical recuiter       | sort candidates by overall test scores                | easily select the most suitable candidate                              |
+| `*`   | techical recuiter       | schedule interview sessions                           | ensure no two sessions are conflicting                                 |
+| `*`   | techical recuiter       | tag candidates by with availability windows           | prioritise candidates who match hiring timelines                       |
+| `*`   | techical recuiter       | filter candidates by multiple criteria simultaneously | quickly identify candidates ready for the next step                    |
 
 *{More to be added}*
 
