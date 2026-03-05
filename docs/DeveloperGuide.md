@@ -335,6 +335,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Candidate**: An engineering job applicant whose details are tracked in RecruiterPlus, including their technical skills, interview progress, and availability.
+* **Interview Status/Stage**: The current position of a candidate in the hiring pipeline (e.g., Phone Screen, Technical Interview, Offer Extended, Rejected).
+* **Technical Skills**: Programming languages, frameworks, tools, or domain expertise that candidates possess (e.g., Python, React, Machine Learning, Kubernetes).
+* **Availability Window**: The timeframe in which a candidate is able to start a new position (e.g., "available immediately", "2 weeks notice", "3 months notice").
+* **Referral**: The source or person who recommended a candidate for a position, tracked to measure referral effectiveness and provide rewards.
+* **Job Opening/Position**: A specific engineering role that the company is hiring for, which candidates are being evaluated against.
+* **CLI (Command Line Interface)**: A text-based interface where users interact with the application by typing commands rather than using a mouse.
+
 
 --------------------------------------------------------------------------------------------------------------------
 
