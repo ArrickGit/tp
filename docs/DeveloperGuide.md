@@ -296,25 +296,25 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `RecruiterPlus` and the **Actor** is the `recruiter`, unless specified otherwise)
 
 **Use case: Add a candidate**
 
 **MSS**
 
 1. User requests to add a candidate with name, phone, and email.
-2. AddressBook validates the input parameters.
-3. AddressBook checks that the candidate is not a duplicate (by email or canonical phone).
-4. AddressBook saves the candidate details (with interviewed set to unmarked by default).
-5. AddressBook updates the GUI to show the newly added candidate and increments the candidate count.
-6. AddressBook shows a success message.
+2. RecruiterPlus validates the input parameters.
+3. RecruiterPlus checks that the candidate is not a duplicate (by email or canonical phone).
+4. RecruiterPlus saves the candidate details (with interviewed set to unmarked by default).
+5. RecruiterPlus updates the GUI to show the newly added candidate and increments the candidate count.
+6. RecruiterPlus shows a success message.
 
 Use case ends.
 
 **Extensions**
 
 * 2a. Missing required parameter(s).
-   * 2a1. AddressBook shows the relevant error message:
+   * 2a1. RecruiterPlus shows the relevant error message:
       * Missing Required Parameter: -name
       * Missing required parameter: -phone
       * Missing required parameter: -email
@@ -322,7 +322,7 @@ Use case ends.
    Use case ends.
 
 * 2b. Parameter specified more than once.
-   * 2b1. AddressBook shows the relevant error message:
+   * 2b1. RecruiterPlus shows the relevant error message:
       * Parameter -name specified more than once
       * Parameter -phone specified more than once
       * Parameter -email specified more than once
@@ -330,49 +330,49 @@ Use case ends.
    Use case ends.
 
 * 2c. Invalid/empty name (after trimming; includes "only spaces").
-   * 2c1. AddressBook shows:
+   * 2c1. RecruiterPlus shows:
       * Invalid name: Name may contain letters, spaces, hyphens, apostrophes and must be 1-80 characters
 
    Use case ends.
 
 * 2d. Invalid phone number.
-   * 2d1. AddressBook shows:
+   * 2d1. RecruiterPlus shows:
       * Invalid phone number: use 8 digits, spaces/hyphens allowed.
 
    Use case ends.
 
 * 2e. Invalid email.
-   * 2e1. AddressBook shows:
+   * 2e1. RecruiterPlus shows:
       * Invalid email: must be a valid email address (e.g. name@example.com) with no spaces.
 
    Use case ends.
 
 * 3a. Candidate is a duplicate by email (case-insensitive).
-   * 3a1. AddressBook shows:
+   * 3a1. RecruiterPlus shows:
       * Error: A candidate with this email already exists: <email>
 
    Use case ends.
 
 * 3b. Candidate is a duplicate by phone (canonical match).
-   * 3b1. AddressBook shows:
+   * 3b1. RecruiterPlus shows:
       * Error: A candidate with this phone number already exists: <phone>
 
    Use case ends.
 
 * 4a. Storage is full and saving fails.
-   * 4a1. AddressBook shows:
+   * 4a1. RecruiterPlus shows:
       * Error: Could not save data, Please try again.
 
    Use case ends.
 
 * 4b. Data file is corrupted and prevents saving.
-   * 4b1. AddressBook shows:
+   * 4b1. RecruiterPlus shows:
       * Error: Data file is corrupted. Restore from backup or reset data.
 
    Use case ends.
 
 * 2f. Input too long / parser overflow.
-   * 2f1. AddressBook shows:
+   * 2f1. RecruiterPlus shows:
       * Error: Input too long. Name must be at most 80 characters; email max 254
 
    Use case ends.
@@ -382,32 +382,32 @@ Use case ends.
 **MSS**
 
 1. User requests to list candidates.
-2. AddressBook shows a list of candidates.
+2. RecruiterPlus shows a list of candidates.
 3. User requests to delete a specific candidate in the list using `delete <id>`.
-4. AddressBook deletes the candidate.
-5. AddressBook updates the GUI and shows a success message.
+4. RecruiterPlus deletes the candidate.
+5. RecruiterPlus updates the GUI and shows a success message.
 
 Use case ends.
 
 **Extensions**
 
 * 2a. The list is empty.
-   * 2a1. AddressBook shows "No candidates saved!".
+   * 2a1. RecruiterPlus shows "No candidates saved!".
 
    Use case ends.
 
 * 3a. Invalid format.
-   * 3a1. AddressBook shows: ERROR: Invalid format! Usage: delete <id>
+   * 3a1. RecruiterPlus shows: ERROR: Invalid format! Usage: delete <id>
 
    Use case ends.
 
 * 3b. Invalid ID (not a non-negative integer).
-   * 3b1. AddressBook shows: ERROR: Invalid ID. Ensure ID is a non-negative integer
+   * 3b1. RecruiterPlus shows: ERROR: Invalid ID. Ensure ID is a non-negative integer
 
    Use case ends.
 
 * 4a. ID not found.
-   * 4a1. AddressBook shows: ERROR: ID not found
+   * 4a1. RecruiterPlus shows: ERROR: ID not found
 
    Use case resumes at step 2.
 
@@ -416,14 +416,14 @@ Use case ends.
 **MSS**
 
 1. User requests to list candidates using `list`.
-2. AddressBook shows a list of all candidates.
+2. RecruiterPlus shows a list of all candidates.
 
 Use case ends.
 
 **Extensions**
 
 * 2a. The list is empty.
-   * 2a1. AddressBook shows "No candidates saved!".
+   * 2a1. RecruiterPlus shows "No candidates saved!".
 
    Use case ends.
 
@@ -432,32 +432,32 @@ Use case ends.
 **MSS**
 
 1. User requests to list candidates.
-2. AddressBook shows a list of candidates.
+2. RecruiterPlus shows a list of candidates.
 3. User requests to mark a specific candidate in the list using `mark <id>`.
-4. AddressBook marks the candidate as interviewed.
-5. AddressBook updates the GUI and shows a success message.
+4. RecruiterPlus marks the candidate as interviewed.
+5. RecruiterPlus updates the GUI and shows a success message.
 
 Use case ends.
 
 **Extensions**
 
 * 2a. The list is empty.
-   * 2a1. AddressBook shows "No candidates saved!".
+   * 2a1. RecruiterPlus shows "No candidates saved!".
 
    Use case ends.
 
 * 3a. Invalid format.
-   * 3a1. AddressBook shows: ERROR: Invalid format! Usage: mark <id>
+   * 3a1. RecruiterPlus shows: ERROR: Invalid format! Usage: mark <id>
 
    Use case ends.
 
 * 3b. Invalid ID (not a non-negative integer).
-   * 3b1. AddressBook shows: ERROR: Invalid ID. Ensure ID is a non-negative integer
+   * 3b1. RecruiterPlus shows: ERROR: Invalid ID. Ensure ID is a non-negative integer
 
    Use case ends.
 
 * 4a. ID not found.
-   * 4a1. AddressBook shows: ERROR: ID not found
+   * 4a1. RecruiterPlus shows: ERROR: ID not found
 
    Use case resumes at step 2.
 
@@ -473,6 +473,14 @@ Use case ends.
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Candidate**: An engineering job applicant whose details are tracked in RecruiterPlus, including their technical skills, interview progress, and availability.
+* **Interview Status/Stage**: The current position of a candidate in the hiring pipeline (e.g., Phone Screen, Technical Interview, Offer Extended, Rejected).
+* **Technical Skills**: Programming languages, frameworks, tools, or domain expertise that candidates possess (e.g., Python, React, Machine Learning, Kubernetes).
+* **Availability Window**: The timeframe in which a candidate is able to start a new position (e.g., "available immediately", "2 weeks notice", "3 months notice").
+* **Referral**: The source or person who recommended a candidate for a position, tracked to measure referral effectiveness and provide rewards.
+* **Job Opening/Position**: A specific engineering role that the company is hiring for, which candidates are being evaluated against.
+* **CLI (Command Line Interface)**: A text-based interface where users interact with the application by typing commands rather than using a mouse.
+
 
 --------------------------------------------------------------------------------------------------------------------
 
