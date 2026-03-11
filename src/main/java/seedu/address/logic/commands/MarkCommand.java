@@ -2,10 +2,14 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.person.Person;
 
 /**
  * Marks a candidate as interviewed in the address book.
@@ -30,8 +34,25 @@ public class MarkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        // TODO: Implement mark logic
-        return new CommandResult("Mark command called on index: " + targetIndex.getOneBased());
+        List<Person> lastShownList = model.getFilteredPersonList();
+
+        if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        }
+
+        Person personToMark = lastShownList.get(targetIndex.getZeroBased());
+
+        // since Person is immutable, create a new Person instance with same fields
+        Person editedPerson = new Person(
+            personToMark.getName(),
+            personToMark.getPhone(),
+            personToMark.getEmail(),
+            personToMark.getAddress(),
+            personToMark.getTags(),
+            true
+        );
+        model.setPerson(personToMark, editedPerson);
+        return new CommandResult(String.format(MESSAGE_MARK_PERSON_SUCCESS, Messages.format(personToMark)));
     }
 
     @Override
