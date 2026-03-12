@@ -24,6 +24,7 @@ public class MarkCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_MARK_PERSON_SUCCESS = "Marked Person as interviewed: %1$s";
+    public static final String MESSAGE_ALREADY_MARKED = "This candidate has already been marked as interviewed.";
 
     private final Index targetIndex;
 
@@ -39,9 +40,12 @@ public class MarkCommand extends Command {
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
-        // TODO: check for target person already marked
 
+        // Check if person to mark is already marked
         Person personToMark = lastShownList.get(targetIndex.getZeroBased());
+        if (personToMark.isInterviewed()) {
+            throw new CommandException(MESSAGE_ALREADY_MARKED);
+        }
 
         // since Person is immutable, create a new Person instance with same fields
         Person editedPerson = new Person(
@@ -53,7 +57,7 @@ public class MarkCommand extends Command {
             true
         );
         model.setPerson(personToMark, editedPerson);
-        return new CommandResult(String.format(MESSAGE_MARK_PERSON_SUCCESS, Messages.format(personToMark)));
+        return new CommandResult(String.format(MESSAGE_MARK_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
 
     @Override
