@@ -1,9 +1,12 @@
 package seedu.address.model.person;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
-import seedu.address.commons.util.StringUtil;
+import seedu.address.commons.util.CosineNGramUtil;
+import seedu.address.commons.util.LevenshteinDistanceUtil;
+import seedu.address.commons.util.SimilarityMetric;
 import seedu.address.commons.util.ToStringBuilder;
 
 /**
@@ -11,15 +14,38 @@ import seedu.address.commons.util.ToStringBuilder;
  */
 public class NameContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> keywords;
+    private final SimilarityMetric levenshtein;
+    private final SimilarityMetric nGram;
+    private final double threshold;
 
     public NameContainsKeywordsPredicate(List<String> keywords) {
+        this(keywords, 0.8);
+    }
+
+    /**
+     * Constructs a predicate with a custom similarity threshold.
+     * @param keywords  The list of keywords to match
+     * @param threshold Minimum similarity of range [0.0, 1.0] to
+     *                  be considered a match
+     */
+    public NameContainsKeywordsPredicate(List<String> keywords,
+                                         double threshold) {
         this.keywords = keywords;
+        this.levenshtein = new LevenshteinDistanceUtil();
+        this.nGram = new CosineNGramUtil(3);
+        this.threshold = threshold;
     }
 
     @Override
     public boolean test(Person person) {
+        String[] name = person.getName().fullName.toLowerCase().split("\\s+");
         return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword));
+                .anyMatch(keyword -> {
+                    String normalizedKeyword = keyword.toLowerCase();
+                    return Arrays.stream(name)
+                            .anyMatch(word -> levenshtein.similarity(word, normalizedKeyword) >= threshold
+                                                    || nGram.similarity(word, normalizedKeyword) >= threshold);
+                });
     }
 
     @Override
@@ -34,7 +60,9 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
         }
 
         NameContainsKeywordsPredicate otherNameContainsKeywordsPredicate = (NameContainsKeywordsPredicate) other;
-        return keywords.equals(otherNameContainsKeywordsPredicate.keywords);
+        return keywords.equals(otherNameContainsKeywordsPredicate.keywords)
+                && threshold
+                == otherNameContainsKeywordsPredicate.threshold;
     }
 
     @Override
