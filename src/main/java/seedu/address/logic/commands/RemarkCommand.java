@@ -33,6 +33,9 @@ public class RemarkCommand extends Command {
     private final Index targetIndex;
     private final Remark remark;
 
+    /**
+     * Creates a RemarkCommand to add or edit the remark of the person at {@code targetIndex}.
+     */
     public RemarkCommand(Index targetIndex, Remark remark) {
         requireNonNull(targetIndex);
         requireNonNull(remark);
@@ -82,3 +85,4 @@ public class RemarkCommand extends Command {
                 .toString();
     }
 }
+

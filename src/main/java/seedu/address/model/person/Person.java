@@ -9,7 +9,7 @@ import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
-import seedu.address.model.person.Remark;
+
 
 
 /**
@@ -19,8 +19,6 @@ import seedu.address.model.person.Remark;
 public class Person {
 
     public static final boolean DEFAULT_INTERVIEWED = false;
-    public static final String DEFAULT_REMARK = "";
-
 
     // Identity fields
     private final Name name;
@@ -30,7 +28,7 @@ public class Person {
     // Data fields
     private final Address address;
     private final boolean interviewed;
-    private final Remark remark;                             // <-- add this
+    private final Remark remark;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
@@ -57,7 +55,8 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, boolean interviewed, Remark remark) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, boolean interviewed,
+                  Remark remark) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
@@ -88,7 +87,9 @@ public class Person {
         return interviewed;
     }
 
-    public Remark getRemark() { return remark; }
+    public Remark getRemark() {
+        return remark;
+    }
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
@@ -138,7 +139,6 @@ public class Person {
 
     @Override
     public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(name, phone, email, address, interviewed, remark, tags);
     }
 
