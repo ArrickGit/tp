@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.CosineNGramUtil;
+import seedu.address.commons.util.FuzzySimilarityUtil;
 import seedu.address.commons.util.LevenshteinDistanceUtil;
 import seedu.address.commons.util.SimilarityMetric;
 import seedu.address.commons.util.ToStringBuilder;
@@ -14,12 +15,12 @@ import seedu.address.commons.util.ToStringBuilder;
  */
 public class NameContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> keywords;
-    private final SimilarityMetric levenshtein;
-    private final SimilarityMetric nGram;
     private final double threshold;
+    private final FuzzySimilarityUtil fuzzyUtil;
+
 
     public NameContainsKeywordsPredicate(List<String> keywords) {
-        this(keywords, 0.8);
+        this(keywords, 0.5);
     }
 
     /**
@@ -31,8 +32,11 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
     public NameContainsKeywordsPredicate(List<String> keywords,
                                          double threshold) {
         this.keywords = keywords;
-        this.levenshtein = new LevenshteinDistanceUtil();
-        this.nGram = new CosineNGramUtil(3);
+        List<SimilarityMetric> metrics = List.of(
+                new LevenshteinDistanceUtil(),
+                new CosineNGramUtil(3)
+        );
+        this.fuzzyUtil = new FuzzySimilarityUtil(metrics);
         this.threshold = threshold;
     }
 
@@ -40,11 +44,12 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
     public boolean test(Person person) {
         String[] name = person.getName().fullName.toLowerCase().split("\\s+");
         return keywords.stream()
+                .map(String::toLowerCase)
                 .anyMatch(keyword -> {
                     String normalizedKeyword = keyword.toLowerCase();
                     return Arrays.stream(name)
-                            .anyMatch(word -> levenshtein.similarity(word, normalizedKeyword) >= threshold
-                                                    || nGram.similarity(word, normalizedKeyword) >= threshold);
+                            .anyMatch(word ->
+                                    fuzzyUtil.isSimilar(word, keyword, threshold));
                 });
     }
 

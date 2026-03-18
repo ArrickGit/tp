@@ -42,17 +42,14 @@ public class FuzzySimilarityUtil {
         if (first == null || second == null) {
             throw new NullPointerException("Input strings must not be null");
         }
-        double best = 0.0;
+        double score = 0.0;
 
         for (SimilarityMetric metric : metrics) {
-            double score = metric.similarity(first, second);
+            score += metric.similarity(first, second);
 
-            if (score > best) {
-                best = score;
-            }
         }
 
-        return best;
+        return score / metrics.size();
     }
 
     /**
