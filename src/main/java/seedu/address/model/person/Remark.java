@@ -22,6 +22,16 @@ public class Remark {
         value = remark;
     }
 
+    /**
+     * Returns the value of the remark
+     * <p>
+     * If the remarks is cleared, this will return an empty string
+     * @return the remark as a string, never null
+     */
+    public boolean isEmpty() {
+        return value.equals(DEFAULT_REMARK);
+    }
+
     @Override
     public String toString() {
         return value;

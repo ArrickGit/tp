@@ -31,12 +31,15 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE), pe);
         }
 
-        if (!argMultimap.getValue(PREFIX_REMARK).isPresent()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE));
+        String remarkValue = "";
+        if (argMultimap.getValue(PREFIX_REMARK).isPresent()) {
+            remarkValue = argMultimap.getValue(PREFIX_REMARK).get().trim();
         }
 
-        String remarkValue = argMultimap.getValue(PREFIX_REMARK).get();
+        if (!RemarkCommand.isValidRemark(remarkValue)) {
+            throw new ParseException(RemarkCommand.MESSAGE_CONSTRAINTS);
+        }
+
         return new RemarkCommand(index, new Remark(remarkValue));
     }
 }

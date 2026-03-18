@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
@@ -29,6 +30,15 @@ public class RemarkCommand extends Command {
             + PREFIX_REMARK + "Strong in algorithms.";
 
     public static final String MESSAGE_ADD_REMARK_SUCCESS = "Added remark to candidate: %1$s";
+
+    public static final String MESSAGE_DELETE_REMARK_SUCCESS = "Removed remark from candidate: %1$s";
+
+    public static final String MESSAGE_CONSTRAINTS =
+            "Remark can be empty to clear it."
+                    + "Otherwise, it must contain only letters, digits, spaces and basic punctuation";
+
+    private static final Pattern REMARK_REGEX =
+            Pattern.compile("[\\p{Alnum} .,!?'-]*");
 
     private final Index targetIndex;
     private final Remark remark;
@@ -59,7 +69,36 @@ public class RemarkCommand extends Command {
                 personToEdit.isInterviewed(), remark);
 
         model.setPerson(personToEdit, editedPerson);
-        return new CommandResult(String.format(MESSAGE_ADD_REMARK_SUCCESS, Messages.format(editedPerson)));
+
+        if (remark.isEmpty()) {
+            return new CommandResult(String.format(
+                    MESSAGE_DELETE_REMARK_SUCCESS,
+                            Messages.format(editedPerson)
+            ));
+        } else {
+            return new CommandResult(String.format(
+                    MESSAGE_ADD_REMARK_SUCCESS,
+                    Messages.format(editedPerson)));
+        }
+    }
+
+    /**
+     * Validates whether the given remark is valid.
+     * <p>
+     * A valid remark may contain zero or more alphanumeric characters
+     * (letters and digits), spaces, and the following punctuation:
+     * {@code . , ! ? ' -}.
+     * <p>
+     * An empty string is considered as valid.
+     *
+     * @param remark  The remark string to validate
+     * @return {@code true} if the remark matches the allowed format, or
+     *           if it is an empty string; {@code false} otherwise.
+     */
+    public static boolean isValidRemark(
+            String remark) {
+
+        return REMARK_REGEX.matcher(remark).matches();
     }
 
     @Override
