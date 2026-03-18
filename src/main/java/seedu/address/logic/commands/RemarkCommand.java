@@ -78,7 +78,8 @@ public class RemarkCommand extends Command {
         } else {
             return new CommandResult(String.format(
                     MESSAGE_ADD_REMARK_SUCCESS,
-                    Messages.format(editedPerson)));
+                    Messages.format(editedPerson)
+            ));
         }
     }
 
