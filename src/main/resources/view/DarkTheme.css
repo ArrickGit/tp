@@ -83,7 +83,23 @@
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
-    -fx-background-color: -fx-focus-color;
+    -fx-background-color: #284a7c;
+}
+
+.table-row-cell:filled:selected,
+.table-row-cell:filled:focused:selected {
+    -fx-background-color: #284a7c;
+}
+
+.table-row-cell:filled:selected .table-cell,
+.table-row-cell:filled:focused:selected .table-cell {
+    -fx-text-fill: #f2f7ff;
+}
+
+.table-row-cell:filled:selected .label,
+.table-row-cell:filled:focused:selected .label {
+    -fx-text-fill: #f2f7ff;
+    -fx-opacity: 1;
 }
 
 .split-pane:horizontal .split-pane-divider {
@@ -588,6 +604,12 @@
     -fx-background-radius: 100;
     -fx-border-radius: 100;
     -fx-font-family: "Segoe UI Semibold";
+}
+
+.table-row-cell:filled:selected .tag-chip,
+.table-row-cell:filled:focused:selected .tag-chip {
+    -fx-background-color: #8fc5ff;
+    -fx-text-fill: #0e2f5f;
 }
 
 .interview-badge {
