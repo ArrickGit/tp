@@ -56,7 +56,14 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
-        interviewed.setText(person.isInterviewed() ? "Interviewed" : "Not Interviewed");
+
+        if (person.isInterviewed()) {
+            interviewed.setText("Interviewed");
+            interviewed.getStyleClass().add("status-green");
+        } else {
+            interviewed.setText("Not Interviewed");
+            interviewed.getStyleClass().add("status-red");
+        }
         remark.setText(person.getRemark().value);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))

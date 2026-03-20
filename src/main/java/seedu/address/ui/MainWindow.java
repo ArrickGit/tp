@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -32,8 +33,10 @@ public class MainWindow extends UiPart<Stage> {
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
-    private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
+    private ResultDisplay resultDisplay;
+    private FilterPanel filterPanel;
+    private CandidateDetailsPanel detailsPanel;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -44,11 +47,18 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private StackPane personListPanelPlaceholder;
 
-    @FXML
-    private StackPane resultDisplayPlaceholder;
 
     @FXML
     private StackPane statusbarPlaceholder;
+
+    @FXML
+    private StackPane filterPanelPlaceholder;
+
+    @FXML
+    private StackPane candidateDetailsContainer;
+
+    @FXML
+    private StackPane commandOutputContainer;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -113,14 +123,25 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
-        resultDisplay = new ResultDisplay();
-        resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
-
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        filterPanel = new FilterPanel();
+        filterPanelPlaceholder.getChildren().add(filterPanel.getRoot());
+
+        detailsPanel = new CandidateDetailsPanel();
+        candidateDetailsContainer.getChildren().add(detailsPanel.getRoot());
+
+        resultDisplay = new ResultDisplay();
+        commandOutputContainer.getChildren().add(resultDisplay.getRoot());
+
+        personListPanel.getPersonListView().getSelectionModel()
+                .selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                    detailsPanel.setPerson(newSelection);
+                });
     }
 
     /**
@@ -176,7 +197,9 @@ public class MainWindow extends UiPart<Stage> {
         try {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
-            resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
+
+            resultDisplay.showCommand(commandText);
+            resultDisplay.showSuccess(commandResult.getFeedbackToUser());
 
             if (commandResult.isShowHelp()) {
                 handleHelp();
@@ -189,7 +212,8 @@ public class MainWindow extends UiPart<Stage> {
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("An error occurred while executing command: " + commandText);
-            resultDisplay.setFeedbackToUser(e.getMessage());
+            resultDisplay.showCommand(commandText);
+            resultDisplay.showError(e.getMessage());
             throw e;
         }
     }
