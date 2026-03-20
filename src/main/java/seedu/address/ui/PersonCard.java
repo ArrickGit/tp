@@ -8,6 +8,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -53,13 +54,25 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
-        phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
-        email.setText(person.getEmail().value);
-        interviewed.setText(person.isInterviewed() ? "Interviewed" : "Not Interviewed");
-        remark.setText(person.getRemark().value);
+        phone.setText("Phone: " + person.getPhone().value);
+        address.setText("Address: " + person.getAddress().value);
+        email.setText("Email: " + person.getEmail().value);
+        interviewed.getStyleClass().removeAll("interviewed-yes", "interviewed-no");
+        if (person.isInterviewed()) {
+            interviewed.setText("Interviewed: Yes");
+            interviewed.getStyleClass().add("interviewed-yes");
+        } else {
+            interviewed.setText("Interviewed: No");
+            interviewed.getStyleClass().add("interviewed-no");
+        }
+        remark.setText(person.getRemark().isEmpty() ? "Notes: -" : "Notes: " + person.getRemark().value);
+        if (person.getTags().isEmpty()) {
+            tags.getChildren().add(new Label("no-skills-tagged"));
+            return;
+        }
+
         person.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+            .sorted(Comparator.comparing(Tag::toString))
+            .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
 }

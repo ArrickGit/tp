@@ -3,16 +3,20 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Scene?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-         title="Address App" minWidth="450" minHeight="600" onCloseRequest="#handleExit">
+         title="RecruiterPlus" minWidth="450" minHeight="600" onCloseRequest="#handleExit">
   <icons>
     <Image url="@/images/address_book_32.png" />
   </icons>
@@ -23,38 +27,74 @@
         <URL value="@Extensions.css" />
       </stylesheets>
 
-      <VBox>
-        <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
-          <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
-          </Menu>
-        </MenuBar>
+      <BorderPane styleClass="app-root">
+        <top>
+          <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT">
+              <padding>
+                <Insets top="10" right="12" bottom="10" left="12" />
+              </padding>
+              <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                <image>
+                  <Image url="@/images/address_book_32.png" />
+                </image>
+              </ImageView>
+              <VBox spacing="1">
+                <Label text="RecruiterPlus" styleClass="brand-title" />
+                <Label text="Talent Pipeline Control Center" styleClass="brand-subtitle" />
+              </VBox>
+              <Region HBox.hgrow="ALWAYS" />
+              <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
+                <Menu mnemonicParsing="false" text="File">
+                  <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
+                </Menu>
+              </MenuBar>
+            </HBox>
 
-        <StackPane VBox.vgrow="NEVER" fx:id="commandBoxPlaceholder" styleClass="pane-with-border">
-          <padding>
-            <Insets top="5" right="10" bottom="5" left="10" />
-          </padding>
-        </StackPane>
+            <StackPane fx:id="commandBoxPlaceholder" VBox.vgrow="NEVER" styleClass="command-dock">
+              <padding>
+                <Insets top="8" right="12" bottom="8" left="12" />
+              </padding>
+            </StackPane>
+          </VBox>
+        </top>
 
-        <StackPane VBox.vgrow="NEVER" fx:id="resultDisplayPlaceholder" styleClass="pane-with-border"
-                   minHeight="100" prefHeight="100" maxHeight="100">
-          <padding>
-            <Insets top="5" right="10" bottom="5" left="10" />
-          </padding>
-        </StackPane>
+        <center>
+          <VBox styleClass="workspace-shell" spacing="10">
+            <padding>
+              <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
 
-        <VBox fx:id="personList" styleClass="pane-with-border" minWidth="340" prefWidth="340" VBox.vgrow="ALWAYS">
-          <padding>
-            <Insets top="10" right="10" bottom="10" left="10" />
-          </padding>
-          <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-        </VBox>
+            <VBox styleClass="pipeline-pane" spacing="6" VBox.vgrow="ALWAYS">
+              <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+              </padding>
+              <Label text="Candidate Stream" styleClass="panel-title" />
+              <Label text="Search and update engineering candidates at keyboard speed" styleClass="panel-subtitle" />
+              <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS" styleClass="list-shell" />
+            </VBox>
 
-        <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />
-      </VBox>
+            <VBox styleClass="result-pane" spacing="6" VBox.vgrow="NEVER">
+              <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+              </padding>
+              <Label text="Command Output" styleClass="panel-title" />
+              <StackPane fx:id="resultDisplayPlaceholder" styleClass="result-shell" minHeight="110" prefHeight="130" maxHeight="160" VBox.vgrow="NEVER">
+                <padding>
+                  <Insets top="6" right="8" bottom="6" left="8" />
+                </padding>
+              </StackPane>
+            </VBox>
+          </VBox>
+        </center>
+
+        <bottom>
+          <StackPane fx:id="statusbarPlaceholder" />
+        </bottom>
+      </BorderPane>
     </Scene>
   </scene>
 </fx:root>
