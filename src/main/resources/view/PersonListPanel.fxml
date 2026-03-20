@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-  <ListView fx:id="personListView" VBox.vgrow="ALWAYS" />
+  <TableView fx:id="personTableView" VBox.vgrow="ALWAYS">
+    <columns>
+      <TableColumn fx:id="indexColumn" text="#" minWidth="50" prefWidth="55" maxWidth="70" />
+      <TableColumn fx:id="nameColumn" text="Name" minWidth="260" prefWidth="320" />
+      <TableColumn fx:id="emailColumn" text="Email" minWidth="220" prefWidth="260" />
+      <TableColumn fx:id="phoneColumn" text="Phone" minWidth="120" prefWidth="140" />
+      <TableColumn fx:id="addressColumn" text="Address" minWidth="220" prefWidth="280" />
+      <TableColumn fx:id="remarkColumn" text="Notes" minWidth="220" prefWidth="280" />
+    </columns>
+  </TableView>
 </VBox>

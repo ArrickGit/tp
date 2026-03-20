@@ -4,10 +4,11 @@
 }
 
 .label {
-    -fx-font-size: 11pt;
+    -fx-font-size: 12pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: #d3ddf5;
     -fx-opacity: 0.9;
+    -fx-wrap-text: true;
 }
 
 .label-bright {
@@ -25,7 +26,7 @@
 }
 
 .text-field {
-    -fx-font-size: 12pt;
+    -fx-font-size: 14pt;
     -fx-font-family: "Segoe UI Semibold";
 }
 
@@ -45,7 +46,7 @@
     -fx-background-color: #182239;
     -fx-table-cell-border-color: transparent;
     -fx-table-header-border-color: transparent;
-    -fx-padding: 5;
+    -fx-padding: 2;
 }
 
 .table-view .column-header-background {
@@ -65,11 +66,20 @@
 }
 
 .table-view .column-header .label {
-    -fx-font-size: 20pt;
+    -fx-font-size: 14pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-alignment: center-left;
     -fx-opacity: 1;
+}
+
+.table-cell {
+    -fx-padding: 3 7 3 7;
+    -fx-font-size: 16px;
+}
+
+#indexColumn {
+    -fx-alignment: center;
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
@@ -149,7 +159,7 @@
 .result-display {
     -fx-background-color: transparent;
     -fx-font-family: "Segoe UI Light";
-    -fx-font-size: 13pt;
+    -fx-font-size: 14pt;
     -fx-text-fill: white;
 }
 
@@ -374,9 +384,9 @@
 
 .panel-subtitle {
     -fx-font-family: "Segoe UI";
-    -fx-font-size: 11px;
+    -fx-font-size: 12px;
     -fx-text-fill: #aebfe7;
-    -fx-padding: 0 0 8 0;
+    -fx-padding: 0 0 4 0;
 }
 
 .list-shell {
@@ -543,4 +553,57 @@
 .interviewed-no {
     -fx-text-fill: #ff6b6b;
     -fx-font-family: "Segoe UI Semibold";
+}
+
+.table-cell.interviewed-yes {
+    -fx-text-fill: #66e08a;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.table-cell.interviewed-no {
+    -fx-text-fill: #ff6b6b;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.name-cell-container {
+    -fx-padding: 0;
+}
+
+.name-main {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 17px;
+    -fx-text-fill: #eef4ff;
+}
+
+.name-tags {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-text-fill: #b8c8ee;
+}
+
+.tag-chip {
+    -fx-background-color: #8fc5ff;
+    -fx-text-fill: #0e2f5f;
+    -fx-padding: 2 10 2 10;
+    -fx-background-radius: 100;
+    -fx-border-radius: 100;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.interview-badge {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 13px;
+    -fx-padding: 2 10 2 10;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+}
+
+.interview-badge-yes {
+    -fx-text-fill: #e9fff0;
+    -fx-background-color: #2f8a4f;
+}
+
+.interview-badge-no {
+    -fx-text-fill: #ffecec;
+    -fx-background-color: #b84848;
 }
