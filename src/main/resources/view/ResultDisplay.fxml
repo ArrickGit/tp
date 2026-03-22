@@ -9,9 +9,10 @@
 <StackPane fx:id="placeHolder" styleClass="result-display" xmlns="http://javafx.com/javafx/17"
            xmlns:fx="http://javafx.com/fxml/1">
 
-    <VBox>
+    <VBox fillWidth="true" maxWidth="Infinity" maxHeight="Infinity">
         <Label text="Command Output" styleClass="header" />
-        <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="command-scroll">
+        <ScrollPane fx:id="commandScroll" fitToWidth="true" fitToHeight="true" styleClass="command-scroll"
+                    VBox.vgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity">
             <TextFlow fx:id="resultDisplay" styleClass="command-output" maxWidth="Infinity"/>
         </ScrollPane>
     </VBox>

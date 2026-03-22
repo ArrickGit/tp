@@ -35,7 +35,6 @@ public class MainWindow extends UiPart<Stage> {
     private PersonListPanel personListPanel;
     private HelpWindow helpWindow;
     private ResultDisplay resultDisplay;
-    private FilterPanel filterPanel;
     private CandidateDetailsPanel detailsPanel;
 
     @FXML
@@ -50,9 +49,6 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane statusbarPlaceholder;
-
-    @FXML
-    private StackPane filterPanelPlaceholder;
 
     @FXML
     private StackPane candidateDetailsContainer;
@@ -129,9 +125,6 @@ public class MainWindow extends UiPart<Stage> {
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
-        filterPanel = new FilterPanel();
-        filterPanelPlaceholder.getChildren().add(filterPanel.getRoot());
-
         detailsPanel = new CandidateDetailsPanel();
         candidateDetailsContainer.getChildren().add(detailsPanel.getRoot());
 
@@ -198,8 +191,8 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
 
-            resultDisplay.showCommand(commandText);
             resultDisplay.showSuccess(commandResult.getFeedbackToUser());
+            resultDisplay.showCommand(commandText);
 
             if (commandResult.isShowHelp()) {
                 handleHelp();
@@ -212,8 +205,8 @@ public class MainWindow extends UiPart<Stage> {
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("An error occurred while executing command: " + commandText);
-            resultDisplay.showCommand(commandText);
             resultDisplay.showError(e.getMessage());
+            resultDisplay.showCommand(commandText);
             throw e;
         }
     }

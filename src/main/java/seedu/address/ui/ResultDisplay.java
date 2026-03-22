@@ -2,8 +2,10 @@ package seedu.address.ui;
 
 import static java.util.Objects.requireNonNull;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Region;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -17,6 +19,9 @@ public class ResultDisplay extends UiPart<Region> {
     @FXML
     private TextFlow resultDisplay;
 
+    @FXML
+    private ScrollPane commandScroll;
+
     public ResultDisplay() {
         super(FXML);
     }
@@ -29,7 +34,8 @@ public class ResultDisplay extends UiPart<Region> {
             line.getStyleClass().add(style);
         }
 
-        resultDisplay.getChildren().add(line);
+        resultDisplay.getChildren().add(0, line);
+        Platform.runLater(() -> commandScroll.setVvalue(0));
     }
 
     public void showCommand(String command) {

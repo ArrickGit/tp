@@ -23,7 +23,7 @@ public class UnmarkCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_UNMARK_PERSON_SUCCESS = "Unmarked Person as interviewed: %1$s";
+    public static final String MESSAGE_UNMARK_PERSON_SUCCESS = "Unmarked [%1$d] %2$s (not interviewed)";
     public static final String MESSAGE_ALREADY_UNMARKED = "This candidate is already marked as not interviewed.";
 
     private final Index targetIndex;
@@ -56,7 +56,11 @@ public class UnmarkCommand extends Command {
                 personToUnmark.getRemark());
 
         model.setPerson(personToUnmark, editedPerson);
-        return new CommandResult(String.format(MESSAGE_UNMARK_PERSON_SUCCESS, Messages.format(editedPerson)));
+        return new CommandResult(String.format(
+            MESSAGE_UNMARK_PERSON_SUCCESS,
+            targetIndex.getOneBased(),
+            editedPerson.getName().fullName
+        ));
     }
 
     @Override

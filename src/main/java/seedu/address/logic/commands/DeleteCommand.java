@@ -25,7 +25,7 @@ public class DeleteCommand extends Command {
             + "Parameters: INDEX [MORE_INDEXES]... (each must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1 2 3";
 
-    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
+    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted:\n%1$s";
 
     private final List<Index> targetIndexes;
 
@@ -54,7 +54,13 @@ public class DeleteCommand extends Command {
         for (Index index : sortedIndexes) {
             Person personToDelete = model.getFilteredPersonList().get(index.getZeroBased());
             model.deletePerson(personToDelete);
-            deletedPersons.append(Messages.format(personToDelete)).append("\n");
+            deletedPersons
+                    .append("[")
+                    .append(index.getOneBased())
+                    .append("] ")
+                    .append(personToDelete.getName().fullName)
+                    .append(" deleted")
+                    .append("\n");
         }
 
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPersons.toString().trim()));

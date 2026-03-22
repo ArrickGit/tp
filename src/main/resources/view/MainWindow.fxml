@@ -9,9 +9,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ScrollPane?>
-
-
 <?import javafx.scene.layout.HBox?>
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
          title="Address App" minWidth="450" minHeight="600" onCloseRequest="#handleExit">
@@ -47,11 +44,6 @@
           </padding>
 
           <HBox spacing="12">
-
-            <StackPane fx:id="filterPanelPlaceholder"
-                       prefWidth="220"
-                       styleClass="pane-with-border" />
-
             <StackPane fx:id="personListPanelPlaceholder"
                        HBox.hgrow="ALWAYS"
                        styleClass="scroll-pane" />
@@ -62,7 +54,11 @@
               <VBox spacing="10" VBox.vgrow="ALWAYS">
                 <StackPane fx:id="candidateDetailsContainer" VBox.vgrow="ALWAYS" />
 
-                <StackPane fx:id="commandOutputContainer" VBox.vgrow="ALWAYS" />
+                <StackPane fx:id="commandOutputContainer"
+                           VBox.vgrow="NEVER"
+                           minHeight="250"
+                           prefHeight="250"
+                           maxHeight="250" />
 
               </VBox>
 

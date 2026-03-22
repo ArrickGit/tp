@@ -23,7 +23,7 @@ public class MarkCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_MARK_PERSON_SUCCESS = "Marked Person as interviewed: %1$s";
+    public static final String MESSAGE_MARK_PERSON_SUCCESS = "Marked [%1$d] %2$s as interviewed";
     public static final String MESSAGE_ALREADY_MARKED = "This candidate has already been marked as interviewed.";
 
     private final Index targetIndex;
@@ -58,7 +58,11 @@ public class MarkCommand extends Command {
             personToMark.getRemark()
         );
         model.setPerson(personToMark, editedPerson);
-        return new CommandResult(String.format(MESSAGE_MARK_PERSON_SUCCESS, Messages.format(editedPerson)));
+        return new CommandResult(String.format(
+            MESSAGE_MARK_PERSON_SUCCESS,
+            targetIndex.getOneBased(),
+            editedPerson.getName().fullName
+        ));
     }
 
     @Override

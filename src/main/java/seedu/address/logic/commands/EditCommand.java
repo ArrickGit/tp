@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
@@ -48,7 +50,7 @@ public class EditCommand extends Command {
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited [%1$d]: %2$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
@@ -85,7 +87,30 @@ public class EditCommand extends Command {
 
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+        String editedFieldsSummary = buildEditedFieldsSummary(editPersonDescriptor);
+        return new CommandResult(String.format(
+                MESSAGE_EDIT_PERSON_SUCCESS,
+                index.getOneBased(),
+                editedFieldsSummary
+        ));
+    }
+
+    private static String buildEditedFieldsSummary(EditPersonDescriptor descriptor) {
+        StringJoiner summary = new StringJoiner(", ");
+
+        descriptor.getName().ifPresent(name -> summary.add("name=" + name.fullName));
+        descriptor.getPhone().ifPresent(phone -> summary.add("phone=" + phone.value));
+        descriptor.getEmail().ifPresent(email -> summary.add("email=" + email.value));
+        descriptor.getAddress().ifPresent(address -> summary.add("address=" + address.value));
+        descriptor.getTags().ifPresent(tags -> {
+            String tagsSummary = tags.stream()
+                    .map(tag -> tag.tagName)
+                    .sorted()
+                    .collect(Collectors.joining(", "));
+            summary.add("tags=[" + tagsSummary + "]");
+        });
+
+        return summary.toString();
     }
 
     /**

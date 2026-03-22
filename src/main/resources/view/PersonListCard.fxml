@@ -24,13 +24,13 @@
       <FlowPane fx:id="tags" />
 
       <HBox spacing="20">
-        <Label fx:id="phone" />
-        <Label fx:id="email" />
+        <Label fx:id="phone" wrapText="true" />
+        <Label fx:id="email" wrapText="true" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
       </HBox>
 
-      <Label fx:id="address" />
+      <Label fx:id="address" wrapText="true" maxWidth="Infinity" />
 
-      <Label fx:id="remark" />
+      <Label fx:id="remark" wrapText="true" maxWidth="Infinity" />
 
   </VBox>
 </HBox>

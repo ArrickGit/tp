@@ -29,9 +29,9 @@ public class RemarkCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_REMARK + "Strong in algorithms.";
 
-    public static final String MESSAGE_ADD_REMARK_SUCCESS = "Added remark to candidate: %1$s";
+    public static final String MESSAGE_ADD_REMARK_SUCCESS = "Remarked [%1$d] %2$s";
 
-    public static final String MESSAGE_DELETE_REMARK_SUCCESS = "Removed remark from candidate: %1$s";
+    public static final String MESSAGE_DELETE_REMARK_SUCCESS = "Removed remark for [%1$d] %2$s";
 
     public static final String MESSAGE_CONSTRAINTS =
             "Remark can be empty to clear it."
@@ -73,12 +73,14 @@ public class RemarkCommand extends Command {
         if (remark.isEmpty()) {
             return new CommandResult(String.format(
                     MESSAGE_DELETE_REMARK_SUCCESS,
-                            Messages.format(editedPerson)
+                    targetIndex.getOneBased(),
+                    editedPerson.getName().fullName
             ));
         } else {
             return new CommandResult(String.format(
                     MESSAGE_ADD_REMARK_SUCCESS,
-                    Messages.format(editedPerson)
+                    targetIndex.getOneBased(),
+                    editedPerson.getName().fullName
             ));
         }
     }

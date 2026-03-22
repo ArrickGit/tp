@@ -15,14 +15,14 @@
 
     <Label fx:id="nameLabel" text="Select a candidate" styleClass="panel-title" />
 
-    <Label fx:id="emailLabel" styleClass="detail-text"/>
+    <Label fx:id="emailLabel" styleClass="detail-text" wrapText="true" maxWidth="Infinity" />
 
-    <Label fx:id="phoneLabel" styleClass="detail-text"/>
+    <Label fx:id="phoneLabel" styleClass="detail-text" wrapText="true" maxWidth="Infinity" />
 
-    <Label fx:id="addressLabel" styleClass="detail-text"/>
+    <Label fx:id="addressLabel" styleClass="detail-text" wrapText="true" maxWidth="Infinity" />
 
-    <Label fx:id="tagsLabel" styleClass="detail-text"/>
+    <Label fx:id="tagsLabel" styleClass="detail-text" wrapText="true" maxWidth="Infinity" />
 
-    <Label fx:id="remarkLabel" styleClass="detail-text" />
+    <Label fx:id="remarkLabel" styleClass="detail-text" wrapText="true" maxWidth="Infinity" />
 
 </VBox>
