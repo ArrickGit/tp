@@ -270,8 +270,8 @@ _{Explain here how the data archiving feature will be implemented}_
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: Streamline engineering hiring by providing tools to optimize the tracking of candidates’ skills,
-interview progress, referrals and availability, enabling recruiters to quickly find and manage technical talents efficiently.
+**Value proposition**: Streamline engineering hiring by providing tools to optimize the tracking of candidates' skills
+and interview progress, enabling recruiters to quickly find and manage technical talents efficiently.
 
 
 ### User stories
@@ -288,10 +288,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *` | technical recuiter          | filter candidates by interview status                 | see which interviewees have not been interviewed                       |
 | `* *`   | technical recuiter          | search candidates by skills                           | save time performing repetitive tasks                                  |
 | `* *`  | technical recuiter      | search candidates using keywords or technical skills  | locate relevant contacts                                               |
-| `* *`  | technical recuiter      | sort candidates by overall test scores                | easily select the most suitable candidate                              |
 | `* *`   | technical recuiter      | unmark candidate as interviewed                       | correct candidates who were wrongly marked as interviewed              |
-| `*`   | technical recuiter      | schedule interview sessions                           | ensure no two sessions are conflicting                                 |
-| `*`   | technical recuiter      | tag candidates by with availability windows           | prioritise candidates who match hiring timelines                       |
 | `*`   | technical recuiter      | filter candidates by multiple criteria simultaneously | quickly identify candidates ready for the next step                    |
 
 *{More to be added}*
@@ -463,6 +460,40 @@ Use case ends.
 
    Use case resumes at step 2.
 
+**Use case: Add a remark to a candidate**
+
+**MSS**
+
+1. User requests to list candidates.
+2. RecruiterPlus shows a list of candidates.
+3. User requests to add a remark to a specific candidate using `remark <id> -remark <remark>`.
+4. RecruiterPlus updates the candidate's remark.
+5. RecruiterPlus updates the GUI and shows a success message.
+
+Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+    * 2a1. RecruiterPlus shows "No candidates saved!".
+
+  Use case ends.
+
+* 3a. Invalid format.
+    * 3a1. RecruiterPlus shows: ERROR: Invalid format! Usage: remark <id> -remark <remark>
+
+  Use case ends.
+
+* 3b. Invalid ID (not a non-negative integer).
+    * 3b1. RecruiterPlus shows: ERROR: Invalid ID. Ensure ID is a non-negative integer
+
+  Use case ends.
+
+* 4a. ID not found.
+    * 4a1. RecruiterPlus shows: ERROR: ID not found
+
+  Use case resumes at step 2.
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -478,9 +509,6 @@ Use case ends.
 * **Candidate**: An engineering job applicant whose details are tracked in RecruiterPlus, including their technical skills, interview progress, and availability.
 * **Interview Status/Stage**: The current position of a candidate in the hiring pipeline (e.g., Phone Screen, Technical Interview, Offer Extended, Rejected).
 * **Technical Skills**: Programming languages, frameworks, tools, or domain expertise that candidates possess (e.g., Python, React, Machine Learning, Kubernetes).
-* **Availability Window**: The timeframe in which a candidate is able to start a new position (e.g., "available immediately", "2 weeks notice", "3 months notice").
-* **Referral**: The source or person who recommended a candidate for a position, tracked to measure referral effectiveness and provide rewards.
-* **Job Opening/Position**: A specific engineering role that the company is hiring for, which candidates are being evaluated against.
 * **CLI (Command Line Interface)**: A text-based interface where users interact with the application by typing commands rather than using a mouse.
 
 
@@ -536,3 +564,33 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+### Marking a candidate as interviewed
+
+1. Marking a candidate while all candidates are being shown
+
+    1. Prerequisites: List all candidates using the `list` command. Multiple candidates in the list.
+
+    1. Test case: `mark 1`<br>
+       Expected: First candidate is marked as interviewed. Success message shown in the status message.
+
+    1. Test case: `mark 1` again<br>
+       Expected: Error message shown indicating candidate is already marked as interviewed.
+
+    1. Test case: `mark 0`<br>
+       Expected: No candidate is marked. Error details shown in the status message.
+
+### Adding a remark to a candidate
+
+1. Adding a remark while all candidates are being shown
+
+    1. Prerequisites: List all candidates using the `list` command. Multiple candidates in the list.
+
+    1. Test case: `remark 1 -remark Strong in algorithms.`<br>
+       Expected: Remark added to first candidate. Success message shown in the status message.
+
+    1. Test case: `remark 1 -remark `<br>
+       Expected: Remark removed from first candidate. Success message shown in the status message.
+
+    1. Test case: `remark 0 -remark test`<br>
+       Expected: No remark added. Error details shown in the status message.
