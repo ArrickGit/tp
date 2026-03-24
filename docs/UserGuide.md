@@ -159,6 +159,21 @@ Examples:
 * `mark 1` marks the 1st candidate in the list as interviewed.
 * `find John` followed by `mark 1` marks the 1st candidate in the results of the `find` command as interviewed.
 
+### Unmarking a candidate as not interviewed : `unmark`
+
+Unmarks the specified candidate as interviewed.
+
+Format: `unmark INDEX`
+
+* Unmarks the candidate at the specified `INDEX` as not interviewed.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+* A candidate that is already marked as not interviewed cannot be unmarked again.
+
+Examples:
+* `unmark 1` unmarks the 1st candidate in the list as not interviewed.
+* `find John` followed by `unmark 1` unmarks the 1st candidate in the results of the `find` command as not interviewed.
+
 ### Adding a remark to a candidate : `remark`
 
 Adds or edits a remark for the specified candidate.
@@ -228,6 +243,7 @@ Action | Format, Examples
 **Edit** | `edit INDEX [-name NAME] [-phone PHONE_NUMBER] [-email EMAIL] [-address ADDRESS] [-tag TAG]…​`<br> e.g.,`edit 2 -name James Lee -email jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Mark** | `mark INDEX`<br> e.g., `mark 1`
+**Unmark** | `unmark INDEX`<br> e.g., `unmark 1`
 **Remark** | `remark INDEX -remark REMARK`<br> e.g., `remark 1 -remark Strong in algorithms.`
 **List** | `list`
 **Help** | `help`
