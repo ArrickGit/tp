@@ -10,7 +10,7 @@ import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
- * Parses input arguments and creates a new DeleteCommand object
+ * Parses input arguments and creates a new DeleteCommand object.
  */
 public class DeleteCommandParser implements Parser<DeleteCommand> {
 
@@ -21,14 +21,21 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
      */
     public DeleteCommand parse(String args) throws ParseException {
         String trimmed = args.trim();
+
         if (trimmed.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
 
-        String[] indexTokens = trimmed.split("\\s+");
-        List<Index> indexes = new ArrayList<>();
+        // Handle delete all keyword
+        if (trimmed.equalsIgnoreCase(DeleteCommand.DELETE_ALL_KEYWORD)) {
+            return new DeleteCommand(true);
+        }
 
+        String[] indexTokens = trimmed.split("\\s+");
+        assert indexTokens.length > 0 : "Splitting a non-empty string must yield at least one token";
+
+        List<Index> indexes = new ArrayList<>();
         for (String token : indexTokens) {
             try {
                 indexes.add(ParserUtil.parseIndex(token));
@@ -45,7 +52,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
 
+        assert !indexes.isEmpty() : "Parsed index list must not be empty after successful parsing";
         return new DeleteCommand(indexes);
     }
-
 }
