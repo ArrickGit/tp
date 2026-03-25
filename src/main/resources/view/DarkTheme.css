@@ -279,6 +279,10 @@
     -fx-text-fill: #94a3b8;
 }
 
+#remark {
+    -fx-max-width: 360;
+}
+
 .pane-with-border {
     -fx-background-color: rgba(15, 23, 42, 0.55);
     -fx-background-radius: 16;

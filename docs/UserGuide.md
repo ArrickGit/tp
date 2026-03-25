@@ -178,7 +178,7 @@ Examples:
 
 Adds or edits a remark for the specified candidate.
 
-Format: `remark INDEX -remark REMARK`
+Format: `remark INDEX [REMARK]`
 
 * Adds or edits the remark of the candidate at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
@@ -186,7 +186,8 @@ Format: `remark INDEX -remark REMARK`
 * An existing remark will be overwritten by the new remark.
 
 Examples:
-* `remark 1 -remark Strong in algorithms.` adds the remark "Strong in algorithms." to the 1st candidate.
+* `remark 1 Strong in algorithms.` adds the remark "Strong in algorithms." to the 1st candidate.
+* `remark 1` clears the remark of the 1st candidate.
 
 ### Clearing all entries : `clear`
 
@@ -244,6 +245,6 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Mark** | `mark INDEX`<br> e.g., `mark 1`
 **Unmark** | `unmark INDEX`<br> e.g., `unmark 1`
-**Remark** | `remark INDEX -remark REMARK`<br> e.g., `remark 1 -remark Strong in algorithms.`
+**Remark** | `remark INDEX [REMARK]`<br> e.g., `remark 1 Strong in algorithms.`
 **List** | `list`
 **Help** | `help`

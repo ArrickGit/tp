@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -24,18 +23,19 @@ public class RemarkCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Adds or edits the remark of the candidate identified "
             + "by the index number used in the displayed candidate list.\n"
-            + "Parameters: INDEX (must be a positive integer) "
-            + PREFIX_REMARK + " REMARK\n"
-            + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_REMARK + " Strong in algorithms.";
+            + "Parameters: INDEX (must be a positive integer) [REMARK]\n"
+            + "Example: " + COMMAND_WORD + " 1 Strong in algorithms.";
 
     public static final String MESSAGE_ADD_REMARK_SUCCESS = "Remarked [%1$d] %2$s";
 
     public static final String MESSAGE_DELETE_REMARK_SUCCESS = "Removed remark for [%1$d] %2$s";
 
+        public static final int MAX_REMARK_LENGTH = 120;
+
     public static final String MESSAGE_CONSTRAINTS =
             "Remark can be empty to clear it."
-                    + "Otherwise, it must contain only letters, digits, spaces and basic punctuation";
+                + " Otherwise, it must contain only letters, digits, spaces and basic punctuation, "
+                + "and be at most " + MAX_REMARK_LENGTH + " characters long.";
 
     private static final Pattern REMARK_REGEX =
             Pattern.compile("[\\p{Alnum} .,!?'-]*");
@@ -100,8 +100,7 @@ public class RemarkCommand extends Command {
      */
     public static boolean isValidRemark(
             String remark) {
-
-        return REMARK_REGEX.matcher(remark).matches();
+        return remark.length() <= MAX_REMARK_LENGTH && REMARK_REGEX.matcher(remark).matches();
     }
 
     @Override

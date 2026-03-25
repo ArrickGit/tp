@@ -466,7 +466,7 @@ Use case ends.
 
 1. User requests to list candidates.
 2. RecruiterPlus shows a list of candidates.
-3. User requests to add a remark to a specific candidate using `remark <id> -remark <remark>`.
+3. User requests to add a remark to a specific candidate using `remark <id> <remark>`.
 4. RecruiterPlus updates the candidate's remark.
 5. RecruiterPlus updates the GUI and shows a success message.
 
@@ -480,7 +480,7 @@ Use case ends.
   Use case ends.
 
 * 3a. Invalid format.
-    * 3a1. RecruiterPlus shows: ERROR: Invalid format! Usage: remark <id> -remark <remark>
+   * 3a1. RecruiterPlus shows: ERROR: Invalid format! Usage: remark <id> <remark>
 
   Use case ends.
 
@@ -586,11 +586,11 @@ testers are expected to do more *exploratory* testing.
 
     1. Prerequisites: List all candidates using the `list` command. Multiple candidates in the list.
 
-    1. Test case: `remark 1 -remark Strong in algorithms.`<br>
+    1. Test case: `remark 1 Strong in algorithms.`<br>
        Expected: Remark added to first candidate. Success message shown in the status message.
 
-    1. Test case: `remark 1 -remark `<br>
+    1. Test case: `remark 1`<br>
        Expected: Remark removed from first candidate. Success message shown in the status message.
 
-    1. Test case: `remark 0 -remark test`<br>
+    1. Test case: `remark 0 test`<br>
        Expected: No remark added. Error details shown in the status message.
