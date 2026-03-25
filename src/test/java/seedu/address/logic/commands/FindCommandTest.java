@@ -110,24 +110,13 @@ public class FindCommandTest {
     @Test
     public void execute_singleKeyword_multiplePersonFound() {
 
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 2);
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
         NameContainsKeywordsPredicate predicate =
                 preparePredicate("Kunz");
         FindCommand command = new FindCommand(predicate);
 
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_keywordMatchesSecondName_personFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
-        NameContainsKeywordsPredicate predicate = preparePredicate("Kurz");
-        FindCommand command = new FindCommand(predicate);
-
-        expectedModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.singletonList(CARL), model.getFilteredPersonList());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package seedu.address.commons.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -90,20 +91,20 @@ public class LevenshteinDistanceUtilTest {
 
     @Test
     public void similarity_bothNull() {
-        assertEquals(1.0,
+        assertThrows(AssertionError.class, () ->
                 levenshteinDistanceUtil.similarity(null, null));
     }
 
     @Test
     public void similarity_firstNull() {
-        assertEquals(0.0,
+        assertThrows(AssertionError.class, () ->
                 levenshteinDistanceUtil.similarity(null, "cat"));
     }
 
     @Test
     public void similarity_secondNull() {
-        assertEquals(0.0,
-                levenshteinDistanceUtil.similarity("cat", null));
+        assertThrows(AssertionError.class, () ->
+            levenshteinDistanceUtil.similarity("cat", null));
     }
 
     @Test
