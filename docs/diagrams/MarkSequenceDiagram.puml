@@ -1,0 +1,78 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":MarkCommandParser" as MarkCommandParser LOGIC_COLOR
+participant "mc:MarkCommand" as MarkCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "p:Person" as Person MODEL_COLOR
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("mark 1")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("mark 1")
+activate AddressBookParser
+
+create MarkCommandParser
+AddressBookParser -> MarkCommandParser
+activate MarkCommandParser
+
+MarkCommandParser --> AddressBookParser
+deactivate MarkCommandParser
+
+AddressBookParser -> MarkCommandParser : parse("1")
+activate MarkCommandParser
+
+create MarkCommand
+MarkCommandParser -> MarkCommand : new MarkCommand(1)
+activate MarkCommand
+
+MarkCommand --> MarkCommandParser :
+deactivate MarkCommand
+
+MarkCommandParser --> AddressBookParser : mc
+deactivate MarkCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+MarkCommandParser -[hidden]-> AddressBookParser
+destroy MarkCommandParser
+
+AddressBookParser --> LogicManager : mc
+deactivate AddressBookParser
+
+LogicManager -> MarkCommand : execute(mc)
+activate MarkCommand
+
+create Person
+MarkCommand -> Person : new Person(... isInterviewed = true ...)
+activate Person
+
+Person -> MarkCommand : p
+deactivate Person
+
+MarkCommand -> Model : m.setPerson(personToMark, p)
+activate Model
+
+Model -> MarkCommand
+deactivate Model
+
+create CommandResult
+MarkCommand -> CommandResult : new CommandResult()
+activate CommandResult
+
+CommandResult --> MarkCommand
+deactivate CommandResult
+
+MarkCommand --> LogicManager : r
+deactivate MarkCommand
+
+[<-- LogicManager
+deactivate LogicManager
+@enduml
