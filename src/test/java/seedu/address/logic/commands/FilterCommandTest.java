@@ -6,16 +6,25 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.AVA;
+import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalPersons.CARL;
+import static seedu.address.testutil.TypicalPersons.DANIEL;
+import static seedu.address.testutil.TypicalPersons.ELLE;
+import static seedu.address.testutil.TypicalPersons.FIONA;
+import static seedu.address.testutil.TypicalPersons.GEORGE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import java.util.function.Predicate;
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.IsInterviewedPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for {@code FilterCommand}.
@@ -31,13 +40,13 @@ public class FilterCommandTest {
 
     @Test
     public void equals_sameObject_returnsTrue() {
-        FilterCommand command = new FilterCommand(alwaysTrue());
+        FilterCommand command = new FilterCommand(new IsInterviewedPredicate(true));
         assertTrue(command.equals(command));
     }
 
     @Test
     public void equals_samePredicate_returnsTrue() {
-        Predicate<Person> predicate = alwaysTrue();
+        IsInterviewedPredicate predicate = new IsInterviewedPredicate(true);
         FilterCommand command1 = new FilterCommand(predicate);
         FilterCommand command2 = new FilterCommand(predicate);
         assertTrue(command1.equals(command2));
@@ -45,14 +54,14 @@ public class FilterCommandTest {
 
     @Test
     public void equals_differentPredicate_returnsFalse() {
-        FilterCommand command1 = new FilterCommand(alwaysTrue());
-        FilterCommand command2 = new FilterCommand(alwaysFalse());
+        FilterCommand command1 = new FilterCommand(new IsInterviewedPredicate(true));
+        FilterCommand command2 = new FilterCommand(new IsInterviewedPredicate(false));
         assertFalse(command1.equals(command2));
     }
 
     @Test
     public void equals_symmetry() {
-        Predicate<Person> predicate = alwaysTrue();
+        IsInterviewedPredicate predicate = new IsInterviewedPredicate(false);
         FilterCommand command1 = new FilterCommand(predicate);
         FilterCommand command2 = new FilterCommand(predicate);
         assertTrue(command1.equals(command2));
@@ -61,79 +70,84 @@ public class FilterCommandTest {
 
     @Test
     public void equals_null_returnsFalse() {
-        FilterCommand command = new FilterCommand(alwaysTrue());
+        FilterCommand command = new FilterCommand(new IsInterviewedPredicate(true));
         assertFalse(command.equals(null));
     }
 
     @Test
     public void equals_differentType_int_returnsFalse() {
-        FilterCommand command = new FilterCommand(alwaysTrue());
+        FilterCommand command = new FilterCommand(new IsInterviewedPredicate(true));
         assertFalse(command.equals(42));
     }
 
     @Test
     public void equals_differentType_string_returnsFalse() {
-        FilterCommand command = new FilterCommand(alwaysTrue());
+        FilterCommand command = new FilterCommand(new IsInterviewedPredicate(true));
         assertFalse(command.equals("filter"));
     }
 
     // ──────────────────────────────────────────────
     // execute() tests
+    // All 8 typical persons default to isInterviewed = false.
     // ──────────────────────────────────────────────
 
     @Test
-    public void execute_predicateMatchesNone_noPersonFound() {
+    public void execute_filterInterviewedTrue_noPersonFound() {
+        // No typical person has isInterviewed = true
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
-        Predicate<Person> predicate = alwaysFalse();
+        IsInterviewedPredicate predicate = new IsInterviewedPredicate(true);
         FilterCommand command = new FilterCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertTrue(model.getFilteredPersonList().isEmpty());
+        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
     }
 
     @Test
-    public void execute_predicateMatchesAll_allPersonsFound() {
-        Predicate<Person> predicate = alwaysTrue();
+    public void execute_filterInterviewedFalse_allPersonsFound() {
+        // All 8 typical persons have isInterviewed = false
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 8);
+        IsInterviewedPredicate predicate = new IsInterviewedPredicate(false);
         FilterCommand command = new FilterCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
-        int expectedCount = expectedModel.getFilteredPersonList().size();
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, expectedCount);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, AVA, GEORGE),
+                model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_filterInterviewedFalse_listNotEmpty() {
+        IsInterviewedPredicate predicate = new IsInterviewedPredicate(false);
+        FilterCommand command = new FilterCommand(predicate);
+        expectedModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, model, String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 8), expectedModel);
         assertFalse(model.getFilteredPersonList().isEmpty());
     }
 
     @Test
+    public void execute_filterInterviewedTrue_listEmpty() {
+        IsInterviewedPredicate predicate = new IsInterviewedPredicate(true);
+        FilterCommand command = new FilterCommand(predicate);
+        expectedModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, model, String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0), expectedModel);
+        assertTrue(model.getFilteredPersonList().isEmpty());
+    }
+
+    @Test
     public void execute_nullModel_throwsNullPointerException() {
-        FilterCommand command = new FilterCommand(alwaysTrue());
+        FilterCommand command = new FilterCommand(new IsInterviewedPredicate(false));
         org.junit.jupiter.api.Assertions.assertThrows(
                 NullPointerException.class, () -> command.execute(null));
     }
 
     @Test
-    public void execute_returnsCorrectMessageFormat() {
-        Predicate<Person> predicate = alwaysTrue();
-        FilterCommand command = new FilterCommand(predicate);
-        CommandResult result = command.execute(model);
-        assertTrue(result.getFeedbackToUser().contains(
-                String.valueOf(model.getFilteredPersonList().size())));
-    }
-
-    @Test
-    public void execute_updatesFilteredList() {
-        FilterCommand command = new FilterCommand(alwaysFalse());
-        command.execute(model);
-        assertTrue(model.getFilteredPersonList().isEmpty());
-    }
-
-    @Test
     public void execute_calledTwiceWithDifferentPredicates_listUpdatesEachTime() {
-        // First call: filter to nothing
-        new FilterCommand(alwaysFalse()).execute(model);
+        // First call: interviewed = true → empty list
+        new FilterCommand(new IsInterviewedPredicate(true)).execute(model);
         assertTrue(model.getFilteredPersonList().isEmpty());
 
-        // Second call: show everything
-        new FilterCommand(alwaysTrue()).execute(model);
-        assertFalse(model.getFilteredPersonList().isEmpty());
+        // Second call: interviewed = false → all 8 persons
+        new FilterCommand(new IsInterviewedPredicate(false)).execute(model);
+        assertEquals(8, model.getFilteredPersonList().size());
     }
 
     // ──────────────────────────────────────────────
@@ -142,19 +156,19 @@ public class FilterCommandTest {
 
     @Test
     public void toString_notNull() {
-        FilterCommand command = new FilterCommand(alwaysTrue());
+        FilterCommand command = new FilterCommand(new IsInterviewedPredicate(true));
         assertNotNull(command.toString());
     }
 
     @Test
     public void toString_containsPredicateField() {
-        FilterCommand command = new FilterCommand(alwaysTrue());
+        FilterCommand command = new FilterCommand(new IsInterviewedPredicate(true));
         assertTrue(command.toString().contains("predicate"));
     }
 
     @Test
     public void toString_matchesExpectedFormat() {
-        Predicate<Person> predicate = alwaysTrue();
+        IsInterviewedPredicate predicate = new IsInterviewedPredicate(true);
         FilterCommand command = new FilterCommand(predicate);
         String expected = FilterCommand.class.getCanonicalName() + "{predicate=" + predicate + "}";
         assertEquals(expected, command.toString());
@@ -162,21 +176,9 @@ public class FilterCommandTest {
 
     @Test
     public void toString_twoCommandsSamePredicate_equal() {
-        Predicate<Person> predicate = alwaysTrue();
+        IsInterviewedPredicate predicate = new IsInterviewedPredicate(false);
         FilterCommand command1 = new FilterCommand(predicate);
         FilterCommand command2 = new FilterCommand(predicate);
         assertEquals(command1.toString(), command2.toString());
-    }
-
-    // ──────────────────────────────────────────────
-    // Helpers
-    // ──────────────────────────────────────────────
-
-    private static Predicate<Person> alwaysTrue() {
-        return person -> true;
-    }
-
-    private static Predicate<Person> alwaysFalse() {
-        return person -> false;
     }
 }
