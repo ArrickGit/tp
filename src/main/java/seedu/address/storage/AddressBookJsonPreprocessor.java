@@ -63,7 +63,7 @@ public class AddressBookJsonPreprocessor {
      *     <li>Reads the JSON file</li>
      *     <li>Parses its contents</li>
      *     <li>Processes and classifies entries</li>
-     *     <li>Writes valid entries bak to
+     *     <li>Writes valid entries back to
      *     the original file</li>
      *     <li>Writes invalid entries to a
      *     separate file (if any)</li>
