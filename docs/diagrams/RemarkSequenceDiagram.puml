@@ -7,77 +7,31 @@ participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
 participant ":RemarkCommandParser" as RemarkCommandParser LOGIC_COLOR
 participant "r:RemarkCommand" as RemarkCommand LOGIC_COLOR
-participant "res:CommandResult" as CommandResult LOGIC_COLOR
 end box
 
 box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute("remark 1 -remark Strong at algorithms")
+[-> LogicManager : execute()
 
-LogicManager -> AddressBookParser: parseCommand("remark 1 -remark Strong at algorithms")
-activate AddressBookParser
+LogicManager -> AddressBookParser: parseCommand("remark 1 Strong at algorithms")
+AddressBookParser -> RemarkCommandParser : parse("1 Strong at algorithms")
 
-
-AddressBookParser -> RemarkCommandParser : new
-activate RemarkCommandParser
-
-AddressBookParser -> RemarkCommandParser : parse("1 -remark Strong at algorithms")
-
-alt invalid index format
+alt invalid input
     RemarkCommandParser --> AddressBookParser : ParseException
-else missing PREFIX_REMARK
-    RemarkCommandParser --> AddressBookParser : ParseException
-else invalid remark format
-    RemarkCommandParser --> AddressBookParser : ParseException
-else valid input
-    create RemarkCommand
-    RemarkCommandParser -> RemarkCommand : new RemarkCommand(index, new Remark("Strong at algorithms"))
-    activate RemarkCommand
-    deactivate RemarkCommand
+else valid command
+    RemarkCommandParser --> LogicManager : RemarkCommand
 
-    RemarkCommandParser --> AddressBookParser : RemarkCommand
-end
+    LogicManager -> RemarkCommand : execute(model)
+    RemarkCommand -> Model : getFilteredPersonList()
 
-deactivate RemarkCommandParser
-destroy RemarkCommandParser
-
-AddressBookParser --> LogicManager : RemarkCommand
-deactivate AddressBookParser
-
-LogicManager -> RemarkCommand : execute(m)
-activate RemarkCommand
-
-RemarkCommand -> Model : getFilteredPersonList()
-activate Model
-Model --> RemarkCommand : lastShownList
-deactivate Model
-
-alt invalid index
-    RemarkCommand --> LogicManager : CommandException
-else valid index
-    RemarkCommand -> Model : setPerson(personToEdit, editedPerson)
-    activate Model
-    Model --> RemarkCommand
-    deactivate Model
-
-    create CommandResult
-    alt remark.isEmpty()
-        RemarkCommand -> CommandResult : new CommandResult(delete message)
-    else !remark.isEmpty()
-        RemarkCommand -> CommandResult : new CommandResult(add message)
+    alt invalid index
+        RemarkCommand --> LogicManager : CommandException
+    else success
+        RemarkCommand -> Model : setPerson(personToEdit, editedPerson)
+        RemarkCommand --> LogicManager : CommandResult
     end
-    activate CommandResult
-
-    CommandResult --> RemarkCommand
-    deactivate CommandResult
-
-    RemarkCommand --> LogicManager : CommandResult
 end
 
-deactivate RemarkCommand
-
-[<-- LogicManager
-deactivate LogicManager
 @enduml
