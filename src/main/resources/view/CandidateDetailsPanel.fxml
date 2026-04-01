@@ -23,6 +23,8 @@
 
     <Label fx:id="tagsLabel" styleClass="detail-text" wrapText="true" maxWidth="Infinity" />
 
+    <Label fx:id="interviewedLabel" styleClass="detail-text" wrapText="true" maxWidth="Infinity" />
+
     <Label fx:id="remarkLabel" styleClass="detail-text" wrapText="true" maxWidth="Infinity" />
 
 </VBox>
