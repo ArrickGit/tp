@@ -50,7 +50,7 @@ public class PersonListPanel extends UiPart<Region> {
                 setText(null);
             } else {
                 int originalIndex = fullPersonList.indexOf(person) + 1;
-                setGraphic(new PersonCard(person, originalIndex).getRoot());
+                setGraphic(new PersonCard(person, getIndex() + 1).getRoot());
             }
         }
     }
