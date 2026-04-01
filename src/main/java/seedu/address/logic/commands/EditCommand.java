@@ -129,7 +129,8 @@ public class EditCommand extends Command {
         boolean updatedInterviewed = personToEdit.isInterviewed();
         Remark updatedRemark = personToEdit.getRemark();
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, updatedInterviewed, updatedRemark);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, updatedInterviewed,
+                updatedRemark);
     }
 
     @Override
