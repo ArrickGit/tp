@@ -61,6 +61,20 @@ public class Name {
         return fullName.equals(otherName.fullName);
     }
 
+    /**
+     * Provides a case-insensitive comparison and is intended for scenarios
+     * such as duplicate detection where names like "John Doe" and "john doe"
+     * should be considered the same.
+     *
+     * @param other  The other {@code Name} to compare with.
+     * @return {@code true} if both names are equal ignoring case, {@code false} otherwise.
+     * @throws NullPointerException if {@code other} is null.
+     */
+    public boolean equalsIgnoreCase(Name other) {
+        requireNonNull(other);
+        return this.fullName.equalsIgnoreCase(other.fullName);
+    }
+
     @Override
     public int hashCode() {
         return fullName.hashCode();
