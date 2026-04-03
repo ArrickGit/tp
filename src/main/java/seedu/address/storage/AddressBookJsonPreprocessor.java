@@ -131,6 +131,7 @@ public class AddressBookJsonPreprocessor {
     private void handleNode(JsonNode node) {
         if (!(node instanceof ObjectNode objectNode)) {
             logger.log(Level.SEVERE, "Non-object entry: " + node.toString());
+            invalidPersons.add(mapper.createObjectNode().put("raw", node.toString()));
             return;
         }
         classifyPerson(objectNode);
@@ -145,6 +146,7 @@ public class AddressBookJsonPreprocessor {
             invalidPersons.add(node);
         } else {
             logger.log(Level.WARNING, "Malformed field(s) detected: " + node.toString());
+            invalidPersons.add(node.deepCopy());
         }
     }
 

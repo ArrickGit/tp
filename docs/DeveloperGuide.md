@@ -145,6 +145,25 @@ The `Storage` component,
 * inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
+#### Data file preprocessing and quarantine
+
+Before reading data into model objects, the app runs `AddressBookJsonPreprocessor` to reduce startup failures caused by malformed JSON entries.
+
+Preprocessing behavior:
+* Reads the `persons` array from the configured data file.
+* Classifies each entry as valid or invalid.
+* Writes valid entries back to the main data file.
+* Writes malformed entries to `addressbook_invalid.json` in the same directory.
+
+Classification rules:
+* Entries with all required fields and valid JSON types are treated as valid.
+* Minor optional-field issues (e.g. missing `remark` or non-array `tags`) are auto-fixed.
+* Non-object nodes and malformed required-field types are quarantined into `addressbook_invalid.json`.
+
+This approach ensures malformed records are preserved for manual recovery instead of being silently dropped during rewrite.
+
+Diagram source: `docs/diagrams/StoragePreprocessingActivity.puml`
+
 ### Common classes
 
 Classes used by multiple components are in the `seedu.address.commons` package.

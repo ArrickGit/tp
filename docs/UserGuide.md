@@ -230,8 +230,8 @@ RecruiterPlus data are saved in the hard disk automatically after any command th
 RecruiterPlus data are saved automatically as a JSON file `[JAR file location]/data/recruiterplus.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, RecruiterPlus will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the RecruiterPlus to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+Malformed entries are quarantined into `addressbook_invalid.json` during startup preprocessing, while valid entries are kept in the main data file. This helps prevent silent data loss when only some records are invalid.<br>
+However, if the overall file is severely corrupted or contains values that violate model constraints, the app may still fail to load some entries. It is recommended to keep a backup before editing the data file manually.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
