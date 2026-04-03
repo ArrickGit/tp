@@ -68,7 +68,7 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S2-CS2103-F09-2/tp/tree/master/src/main/java/seedu/address/ui/Ui.java)
+    The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S2-CS2103-F09-2/tp/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
@@ -237,8 +237,6 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
-_{more aspects and alternatives to be added}_
-
 ### Remark feature
 The *Remark* feature allows recruiters to add, edit, or remove remarks associated with a candidate.
 This is useful for storing additional qualitative notes such as interview impressions or technical strengths.
@@ -247,7 +245,7 @@ This is useful for storing additional qualitative notes such as interview impres
 The feature is implemented using `RemarkCommand` and `RemarkCommandParser`.
 
 When the user executes a command such as:
-`remark 1 -remark Strong in algorithms` 
+`remark 1 Strong in algorithms`
 the following steps occur:
 1. The input command is received by the `LogicManager`
 2. `AddressBookParser` identifies the command and delegates parsing to `RemarkCommandParser`.
@@ -261,7 +259,7 @@ the following steps occur:
     * replaces the old `Person` using `Model#setPerson()`
 6. A `CommandResult` is returned and displayed to the user.
 
-If the remark provided is empty, the system interprets it as a request to remove the remark.
+>> If the remark provided is empty, the system interprets it as a request to remove the remark.
 
 #### Sequence Diagram
 
@@ -280,11 +278,6 @@ The following sequence diagram illustrates the interaction between components wh
 * **Alternative:** Store remarks separately from `Person`
   * Pros: Avoids recreating `Person`
   * Cons: Adds complexity and weakens encapsulation
-
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
 
 
 --------------------------------------------------------------------------------------------------------------------
