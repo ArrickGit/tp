@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.CosineNGramUtil;
@@ -20,7 +21,9 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
     private final FuzzySimilarityUtil fuzzyUtil;
 
     /**
-     * Constructs a predicate with a custom similarity threshold.
+     * Constructs a predicate that matches persons whose names contain any of the
+     * given keywords.
+     *
      * @param keywords  The list of keywords to match
      */
     public NameContainsKeywordsPredicate(List<String> keywords) {
@@ -70,15 +73,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
 
         String[] words = fullName.split("\\s+");
         return keywords.stream()
-                .anyMatch(keyword -> {
-                    double dynamicThreshold = getThreshold(
-                            keyword.length());
-                    return Arrays.stream(words)
-                            .anyMatch(word ->
-                                    word.contains(keyword)
-                                            || fuzzyUtil.isSimilar(word, keyword,
-                                            dynamicThreshold));
-                });
+                .anyMatch(keyword -> matchesAnyWord(words, keyword));
     }
 
     @Override
@@ -97,8 +92,8 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
     }
 
     /**
-     * Returns a similarity threshold for fuzzy matching
-     * based on the length of the word.
+     * Returns a similarity threshold for fuzzy matching based on the length of the
+     * shorter compared word.
      * <p>
      * Short words are given a lower threshold to allow for
      * more leniency in fuzzy matches,
@@ -125,14 +120,25 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
         return 0.8;
     }
 
-    private static List<String> filterValidKeywords(
-            List<String> keywords) {
+    private boolean matchesAnyWord(String[] words, String keyword) {
+        return Arrays.stream(words)
+                .anyMatch(word -> matchesWord(word, keyword));
+    }
+
+    private boolean matchesWord(String word, String keyword) {
+        double dynamicThreshold = getThreshold(Math.min(word.length(), keyword.length()));
+        return word.contains(keyword) || fuzzyUtil.isSimilar(word, keyword, dynamicThreshold);
+    }
+
+    private static List<String> filterValidKeywords(List<String> keywords) {
         return keywords.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(keyword -> !keyword.isEmpty())
                 .map(String::toLowerCase)
-                .filter(keyword ->
-                        keyword != null && !keyword.trim().isEmpty())
                 .toList();
     }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this).add("keywords", keywords).toString();

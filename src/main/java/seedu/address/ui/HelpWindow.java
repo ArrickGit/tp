@@ -17,6 +17,20 @@ public class HelpWindow extends UiPart<Stage> {
 
     public static final String USERGUIDE_URL = "https://ay2526s2-cs2103-f09-2.github.io/tp/UserGuide.html";
     public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
+    public static final String EXAMPLE_COMMANDS_MESSAGE = String.join(System.lineSeparator(),
+            "Example commands:",
+            "- list",
+            "- add -name John Doe -phone 98765432 -email johnd@example.com -address John street, block 123, #01-01",
+            "- find alex",
+            "- filter -interviewed y",
+            "- edit 2 -phone 91234567 -email johndoe@example.com",
+            "- mark 2",
+            "- unmark 2",
+            "- remark 1 Strong in algorithms.",
+            "- delete 3",
+            "- clear",
+            "- help",
+            "- exit");
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
@@ -27,6 +41,9 @@ public class HelpWindow extends UiPart<Stage> {
     @FXML
     private Label helpMessage;
 
+    @FXML
+    private Label commandGuideLabel;
+
     /**
      * Creates a new HelpWindow.
      *
@@ -35,6 +52,7 @@ public class HelpWindow extends UiPart<Stage> {
     public HelpWindow(Stage root) {
         super(FXML, root);
         helpMessage.setText(HELP_MESSAGE);
+        commandGuideLabel.setText(EXAMPLE_COMMANDS_MESSAGE);
     }
 
     /**
