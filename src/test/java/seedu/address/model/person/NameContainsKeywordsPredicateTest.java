@@ -130,4 +130,22 @@ public class NameContainsKeywordsPredicateTest {
 
         assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
     }
+
+    @Test
+    public void test_fuzzyLongerQueryAgainstShorterName_returnsTrue() {
+        // BVA: query length crosses the 5/6-character threshold boundary
+        NameContainsKeywordsPredicate predicate =
+                new NameContainsKeywordsPredicate(List.of("aliceee"));
+
+        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+    }
+
+    @Test
+    public void test_fuzzyLongerQueryBeyondBoundary_returnsFalse() {
+        // BVA: query length moves further beyond the fuzzy-match boundary
+        NameContainsKeywordsPredicate predicate =
+                new NameContainsKeywordsPredicate(List.of("aliceeee"));
+
+        assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+    }
 }
