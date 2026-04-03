@@ -29,7 +29,7 @@
               <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copyUrl" text="Copy URL" />
             </children>
           </HBox>
-          <Label fx:id="commandGuideLabel" text="Quick commands: add, list, find, filter, edit, delete, mark, unmark, remark, clear, help, exit" wrapText="true" />
+          <Label fx:id="commandGuideLabel" text="Example commands" wrapText="true" />
         </children>
         <padding>
           <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
