@@ -50,7 +50,12 @@ public class CandidateDetailsPanel extends UiPart<Region> {
         emailLabel.setText(person.getEmail().value);
         phoneLabel.setText(person.getPhone().value);
         addressLabel.setText(person.getAddress().value);
-        tagsLabel.setText(person.getTags().toString());
+        tagsLabel.setText(
+                person.getTags().stream()
+                        .map(tag -> tag.tagName)
+                        .reduce((t1, t2) -> t1 + ", " + t2)
+                        .orElse("")
+        );
         interviewedLabel.setText(person.isInterviewed() ? "Interviewed" : "Not Interviewed");
         remarkLabel.setText(person.getRemark().value);
     }
