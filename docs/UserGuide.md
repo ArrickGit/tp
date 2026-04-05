@@ -150,17 +150,22 @@ Examples:
 
 ### Deleting a person : `delete`
 
-Deletes the specified person from the recruiterplus.
+Deletes the specified person(s) from the recruiterplus.
 
-Format: `delete INDEX`
+Format: `delete INDEX [MORE_INDEXES]... | all`
 
-* Deletes the person at the specified `INDEX`.
+* Deletes the person(s) at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
+* Multiple indexes can be specified to delete several candidates at once.
+* Duplicate indexes are not allowed.
+* Use `all` to delete all currently displayed candidates.
+* `delete all` on an empty list will show an error message.
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the recruiterplus.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+* `delete 2` deletes the 2nd person in the recruiterplus.
+* `delete 1 3 5` deletes the 1st, 3rd and 5th persons in the displayed list.
+* `find Betsy` followed by `delete all` deletes all persons in the results of the `find` command.
 
 ### Marking a candidate as interviewed : `mark`
 
