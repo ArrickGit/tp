@@ -37,8 +37,8 @@ public class RemarkCommand extends Command {
                 + " Otherwise, it must contain only letters, digits, spaces and basic punctuation, "
                 + "and be at most " + MAX_REMARK_LENGTH + " characters long.";
 
-private static final Pattern REMARK_REGEX =
-        Pattern.compile("[\\p{Alnum} .,!?'\"()\\-/:@#$%&+*=\\[\\]\n]{0,500}");
+    private static final Pattern REMARK_REGEX =
+            Pattern.compile("[\\p{Alnum} .,!?'\"()\\-/:@#$%&+*=\\[\\]\n]{0,500}");
 
     private final Index targetIndex;
     private final Remark remark;
