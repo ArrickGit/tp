@@ -106,14 +106,22 @@ Format: `edit INDEX [-name NAME] [-phone PHONE] [-email EMAIL] [-address ADDRESS
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `-tag ` without specifying any tags after it.
-* You can add multiple tags by using `-tag [TAG]` multiple times.
+
+#### Updating of tags
+* Using the `-tag` option will **replace all existing tags** with the newly specified tags.
+* Tag updates are **not incremental**, existing tags are not preserved automatically.
+* To **retain existing tags**, you must **re-enter** them together with any new tags.
+* To **remove all tags**, use `-tag` without specifying any values.
+* To add multiple tags, use `-tag [TAG]` multiple times.
 
 Examples:
 *  `edit 1 -phone 91234567 -email johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 -name Betsy Crower -tag` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+*  `edit 2 -name Betsy Crower -tag` Edits the name of the 2nd person to be `Betsy Crower` and **removes all existing
+   tags.**
 *  `edit 3 -tag friend -tag colleague` Edits the tags of the 3rd person to be `friend` and `colleague`.
+* 
+#### Note:
+>> The `-tag` field does not add to existing tags.<br> Always re-enter tags you wish to keep, or they will be lost.
 
 ### Locating persons by name: `find`
 
