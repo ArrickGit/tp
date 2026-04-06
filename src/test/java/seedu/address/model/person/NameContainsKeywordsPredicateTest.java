@@ -148,4 +148,14 @@ public class NameContainsKeywordsPredicateTest {
 
         assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
     }
+
+    @Test
+    public void constructor_nullKeyword_ignoresInvalidKeyword() {
+        // Robustness Testing: null keyword should be ignored instead of crashing.
+        // Error Guessing: malformed keyword list passed directly to the predicate.
+        NameContainsKeywordsPredicate predicate =
+                new NameContainsKeywordsPredicate(Arrays.asList(null, "Alice"));
+
+        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+    }
 }

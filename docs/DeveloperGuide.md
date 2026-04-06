@@ -266,13 +266,14 @@ This is useful for storing additional qualitative notes such as interview impres
 The feature is implemented using `RemarkCommand` and `RemarkCommandParser`.
 
 When the user executes a command such as:
-`remark 1 -remark Strong in algorithms` 
+`remark 1 Strong in algorithms` 
 the following steps occur:
 1. The input command is received by the `LogicManager`
 2. `AddressBookParser` identifies the command and delegates parsing to `RemarkCommandParser`.
-3. `RemarkCommand` extracts and validates:
+3. `RemarkCommandParser` extracts and validates:
     * the target `Index`
-    * the `Remark` string (ensuring it matches allowed constraints)
+    * the raw remark string after the index, without requiring a prefix
+    * the remark string against the feature constraints
 4. A `RemarkCommand` object is created
 5. During execution, `RemarkCommand`:
     * retrieves the target `Person` from the filtered list in the `Model`
@@ -287,6 +288,25 @@ If the remark provided is empty, the system interprets it as a request to remove
 The following sequence diagram illustrates the interaction between components when executing a remark command:
 
 ![RemarkSequenceDiagram](images/RemarkSequenceDiagram.png)
+
+#### Class structure
+The remark feature also uses two supporting class diagram:
+
+![ParserClass](images/ParserClass-Remark.png)
+**`RemarkCommandParser` implements the
+generic `Parser` interface to process user input.
+It validates the input and if the format or
+content is incorrect,
+throws `ParserException` when the  input is invalid.**
+
+![RemarkClass](images/RemarkClass.png)
+**`RemarkCommand` extends `Command` and encapsulates
+its own feature-specific logic.
+It defines constants like `MAX_REMARK_LENGTH` and
+`MESSAGE_CONSTRAINTS` to enforce input rules,
+and provide a validation method `isValidRemark(String)`
+to ensure remarks meet those constraints
+before execution.**
 
 #### Design consideration
 
