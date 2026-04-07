@@ -38,7 +38,7 @@ public class RemarkCommand extends Command {
                 + "and be at most " + MAX_REMARK_LENGTH + " characters long.";
 
     private static final Pattern REMARK_REGEX =
-            Pattern.compile("[\\p{Alnum} .,!?'-]*");
+            Pattern.compile("[\\p{Alnum} .,!?'\"()\\-/:@#$%&+*=\\[\\]\n]{0,500}");
 
     private final Index targetIndex;
     private final Remark remark;
@@ -88,11 +88,12 @@ public class RemarkCommand extends Command {
     /**
      * Validates whether the given remark is valid.
      * <p>
-     * A valid remark may contain zero or more alphanumeric characters
-     * (letters and digits), spaces, and the following punctuation:
-     * {@code . , ! ? ' -}.
+     * A valid remark may contain zero or more characters, including alphanumeric
+     * characters (letters and digits), spaces, newlines, and the following
+     * punctuation and symbols:
+     * {@code . , ! ? ' " ( ) - / : @ # $ % & + * = [ ]}
      * <p>
-     * An empty string is considered as valid.
+     * An empty string is considered valid.
      *
      * @param remark  The remark string to validate
      * @return {@code true} if the remark matches the allowed format, or
