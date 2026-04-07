@@ -149,6 +149,47 @@ public class AddressBookJsonPreprocessorTest {
     }
 
     @Test
+    public void preProcess_invalidTagValue_entryMovedToInvalid() throws Exception {
+        String json = """
+                {
+                  "persons": [
+                   {
+                     "name" : "Alice",
+                     "phone" : "87654321",
+                     "email" : "alice@test.com",
+                     "address" : "Pasir Ris St 21",
+                     "interviewed" : false,
+                     "remark" : "",
+                     "tags" : [ "A A" ]
+                   }, {
+                     "name" : "Bob",
+                     "phone" : "91234567",
+                     "email" : "bob@test.com",
+                     "address" : "Jurong West Ave 6",
+                     "interviewed" : true,
+                     "remark" : "",
+                     "tags" : [ "friend" ]
+                   }
+                  ]
+                }
+                """;
+
+        Files.writeString(jsonFile, json);
+
+        AddressBookJsonPreprocessor preprocessor =
+                new AddressBookJsonPreprocessor(jsonFile);
+        preprocessor.preProcess();
+
+        JsonNode valid = mapper.readTree(jsonFile.toFile());
+        JsonNode invalid = mapper.readTree(invalidFile.toFile());
+
+        assertEquals(1, valid.get("persons").size());
+        assertEquals("Bob", valid.get("persons").get(0).get("name").asText());
+        assertEquals(1, invalid.get("persons").size());
+        assertEquals("Alice", invalid.get("persons").get(0).get("name").asText());
+    }
+
+    @Test
     public void preProcess_malformedJson_recoveredSuccessfully()
             throws Exception {
         String malformed = """
@@ -235,7 +276,7 @@ public class AddressBookJsonPreprocessorTest {
         String malformed = """
             {
               "persons": [
-                { "name": "John", "phone": "123", "email": "j@test.com",
+                { "name": "John", "phone": "12345678", "email": "j@test.com",
                   "address": "Addr", "interviewed": true
               ]
             }
@@ -258,7 +299,7 @@ public class AddressBookJsonPreprocessorTest {
         String malformed = """
             {
               "persons": [
-                { "name": "John", "phone": "123", "email": "j@test.com",
+                { "name": "John", "phone": "12345678", "email": "j@test.com",
                   "address": "Addr", "interviewed": true
               ]
             }

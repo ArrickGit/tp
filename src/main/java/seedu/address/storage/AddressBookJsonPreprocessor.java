@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Remark;
 
 /**
@@ -139,8 +140,9 @@ public class AddressBookJsonPreprocessor {
 
     private void classifyPerson(ObjectNode node) {
         normalizeBoolean(node, "interviewed");
-        if (isValidPerson(node)) {
-            validPersons.add(autoFixPerson(node));
+        ObjectNode fixedNode = autoFixPerson(node.deepCopy());
+        if (isValidPerson(fixedNode) && isModelCompatible(fixedNode)) {
+            validPersons.add(fixedNode);
         } else if (isUnfixable(node)) {
             logger.log(Level.SEVERE, "Missing required field(s): " + node.toString());
             invalidPersons.add(node);
@@ -188,6 +190,17 @@ public class AddressBookJsonPreprocessor {
 
         normalizeBoolean(node, "interviewed");
         return node;
+    }
+
+    private boolean isModelCompatible(ObjectNode node) {
+        try {
+            mapper.treeToValue(node, JsonAdaptedPerson.class).toModelType();
+            return true;
+        } catch (IllegalValueException | JsonProcessingException e) {
+            logger.log(Level.WARNING, "Person entry failed model validation: "
+                    + node, e);
+            return false;
+        }
     }
 
     /**
