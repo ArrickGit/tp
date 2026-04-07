@@ -28,6 +28,9 @@ public class MarkCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Creates a MarkCommand to mark the person at {@code targetIndex} as interviewed.
+     */
     public MarkCommand(Index targetIndex) {
         requireNonNull(targetIndex);
         this.targetIndex = targetIndex;
