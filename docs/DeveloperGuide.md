@@ -378,7 +378,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1. User requests to add a candidate with name, phone, and email.
 2. RecruiterPlus validates the input parameters.
-3. RecruiterPlus checks that the candidate is not a duplicate (by email or canonical phone).
+3. RecruiterPlus checks that the candidate is not a duplicate by name (case-insensitive).
 4. RecruiterPlus saves the candidate details (with interviewed set to unmarked by default).
 5. RecruiterPlus updates the GUI to show the newly added candidate and increments the candidate count.
 6. RecruiterPlus shows a success message.
@@ -421,15 +421,9 @@ Use case ends.
 
    Use case ends.
 
-* 3a. Candidate is a duplicate by email (case-insensitive).
-   * 3a1. RecruiterPlus shows:
-      * Error: A candidate with this email already exists: <email>
-
-   Use case ends.
-
-* 3b. Candidate is a duplicate by phone (canonical match).
-   * 3b1. RecruiterPlus shows:
-      * Error: A candidate with this phone number already exists: <phone>
+* 3a. Candidate is a duplicate by name (case-insensitive).
+  * 3a1. RecuiterPlus shows:
+    * This person already exists in the address book
 
    Use case ends.
 
