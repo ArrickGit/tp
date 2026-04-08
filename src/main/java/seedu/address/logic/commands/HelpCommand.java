@@ -22,7 +22,7 @@ public class HelpCommand extends Command {
             + "3. EDIT\n"
             + "   Format : edit INDEX [-name NAME] [-phone PHONE_NUMBER] [-email EMAIL] "
             + "[-address ADDRESS] [-tag TAG]...\n"
-            + "   Example: edit 2 -name James Lee -email jameslee@example.com\n\n"
+            + "   Example: edit 2 -name James Lee -email jameslee@example.com -tag friend -tag colleague\n\n"
             + "4. FIND\n"
             + "   Format : find KEYWORD [MORE_KEYWORDS]\n"
             + "   Example: find James Jake\n\n"

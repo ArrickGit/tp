@@ -20,10 +20,11 @@ public class HelpWindow extends UiPart<Stage> {
     public static final String EXAMPLE_COMMANDS_MESSAGE = String.join(System.lineSeparator(),
             "Example commands:",
             "- list",
-            "- add -name John Doe -phone 98765432 -email johnd@example.com -address John street, block 123, #01-01",
+            "- add -name John Doe -phone 98765432 -email johnd@example.com -address John street, block 123, #01-01"
+                + " -tag friend -tag teammate",
             "- find alex",
             "- filter -interviewed y",
-            "- edit 2 -phone 91234567 -email johndoe@example.com",
+            "- edit 2 -phone 91234567 -email johndoe@example.com -tag friend -tag colleague",
             "- mark 2",
             "- unmark 2",
             "- remark 1 Strong in algorithms.",
