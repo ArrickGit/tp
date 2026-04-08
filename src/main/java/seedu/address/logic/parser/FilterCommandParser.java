@@ -35,6 +35,16 @@ public class FilterCommandParser implements Parser<FilterCommand> {
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_INTERVIEWED);
 
+        // Defensive: reject unexpected text before first recognised prefix
+        if (!argMultimap.getPreamble().isEmpty()) {
+            logger.info("FilterCommandParser: unexpected preamble '" + argMultimap.getPreamble() + "'");
+            throw new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+        }
+
+        // Defensive: reject duplicate -interviewed prefixes
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_INTERVIEWED);
+
         // Defensive: require the -interviewed prefix to be present
         if (!argMultimap.getValue(PREFIX_INTERVIEWED).isPresent()) {
             logger.info("FilterCommandParser: missing -interviewed prefix");

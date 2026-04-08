@@ -28,7 +28,11 @@ public class UnmarkCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Creates an UnmarkCommand to unmark the person at {@code targetIndex}.
+     */
     public UnmarkCommand(Index targetIndex) {
+        requireNonNull(targetIndex);
         this.targetIndex = targetIndex;
     }
 
