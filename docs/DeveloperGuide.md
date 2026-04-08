@@ -404,10 +404,11 @@ Use case ends.
    Use case ends.
 
 * 2c. Invalid/empty name (after trimming; includes "only spaces").
-   * 2c1. RecruiterPlus shows:
-      * Invalid name: Name may contain letters, spaces, hyphens, apostrophes and must be 1-80 characters
+  * 2c1. RecruiterPlus shows:
+    * Names should only contain English letters (A-Z, a-z) and spaces, and it should not be blank. No digits or 
+      special characters are allowed.
 
-   Use case ends.
+       Use case ends.
 
 * 2d. Invalid phone number.
   * 2d1.RecruiterPlus shows:
