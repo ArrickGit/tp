@@ -36,6 +36,7 @@ public class AddressBookJsonPreprocessor {
     private static final String[] REQUIRED_FIELDS = {"name", "phone", "email", "address", "interviewed"};
 
     private static final String[] TRUE_VALUES = {"true", "yes", "y", "1", "t"};
+    private static final String[] FALSE_VALUES = {"false", "no", "n", "0", "f"};
 
     private final Path jsonFilePath;
     private final Path invalidFilePath;
@@ -139,9 +140,12 @@ public class AddressBookJsonPreprocessor {
     }
 
     private void classifyPerson(ObjectNode node) {
-        normalizeBoolean(node, "interviewed");
         ObjectNode fixedNode = autoFixPerson(node.deepCopy());
-        if (isValidPerson(fixedNode) && isModelCompatible(fixedNode)) {
+        if (!normalizeInterviewedIfRecognized(fixedNode)) {
+            logger.log(Level.WARNING, "Invalid interviewed value detected: "
+                    + node.toString());
+            invalidPersons.add(node.deepCopy());
+        } else if (isValidPerson(fixedNode) && isModelCompatible(fixedNode)) {
             validPersons.add(fixedNode);
         } else if (isUnfixable(node)) {
             logger.log(Level.SEVERE, "Missing required field(s): " + node.toString());
@@ -188,7 +192,6 @@ public class AddressBookJsonPreprocessor {
             node.putArray("tags");
         }
 
-        normalizeBoolean(node, "interviewed");
         return node;
     }
 
@@ -275,30 +278,53 @@ public class AddressBookJsonPreprocessor {
         return node.has(field) && node.get(field).isBoolean();
     }
 
-    private void normalizeBoolean(ObjectNode node, String field) {
-        if (!node.has(field)
-                || node.get(field).isNull()) {
-            node.put(field, false);
-            return;
+    private boolean normalizeInterviewedIfRecognized(ObjectNode node) {
+        if (!node.has("interviewed") || node.get("interviewed").isNull()) {
+            node.put("interviewed", false);
+            return true;
         }
 
-        JsonNode value = node.get(field);
-        boolean result = extractBooleanValue(value);
-        node.put(field, result);
+        JsonNode value = node.get("interviewed");
+        return normalizeBooleanValue(node, value);
     }
 
-    private boolean extractBooleanValue(JsonNode value) {
+    private boolean normalizeBooleanValue(ObjectNode node, JsonNode value) {
         if (value == null || value.isNull()) {
-            return false;
+            node.put("interviewed", false);
+            return true;
         }
 
         if (value.isBoolean()) {
-            return value.asBoolean();
-        } else if (value.isTextual()) {
+            return true;
+        }
+
+        if (value.isTextual()) {
             String text = value.asText().trim().toLowerCase();
-            return Arrays.asList(TRUE_VALUES).contains(text);
-        } else if (value.isNumber()) {
-            return value.asInt() != 0;
+            if (Arrays.asList(TRUE_VALUES).contains(text)) {
+                node.put("interviewed", true);
+                return true;
+            }
+
+            if (Arrays.asList(FALSE_VALUES).contains(text)) {
+                node.put("interviewed", false);
+                return true;
+            }
+
+            return false;
+        }
+
+        if (value.isNumber()) {
+            int normalized = value.asInt();
+            if (normalized == 1) {
+                node.put("interviewed", true);
+                return true;
+            }
+
+            if (normalized == 0) {
+                node.put("interviewed", false);
+                return true;
+            }
+            return false;
         }
 
         return false;
