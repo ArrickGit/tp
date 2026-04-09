@@ -117,6 +117,36 @@ public class AddressBookJsonPreprocessorTest {
         assertTrue(person.get("interviewed").asBoolean());
     }
 
+    @Test
+    public void preProcess_invalidInterviewedValue_entryMovedToInvalid() throws Exception {
+        String json = """
+                {
+                  "persons" : [
+                   {
+                     "name" : "John Doe",
+                     "phone" : "12345678",
+                     "email" : "john@test.com",
+                     "address" : "Tampines Ave 1",
+                     "interviewed" : "maybe"
+                   }
+                  ]
+                }
+                """;
+
+
+        Files.writeString(jsonFile, json);
+
+        AddressBookJsonPreprocessor preprocessor =
+                new AddressBookJsonPreprocessor(jsonFile);
+        preprocessor.preProcess();
+
+        JsonNode valid = mapper.readTree(jsonFile.toFile());
+        JsonNode invalid = mapper.readTree(invalidFile.toFile());
+
+        assertEquals(0, valid.get("persons").size());
+        assertEquals(1, invalid.get("persons").size());
+        assertEquals("maybe", invalid.get("persons").get(0).get("interviewed").asText());
+    }
 
     @Test
     public void preProcess_missingRemarkAndTags_autoFixed()
