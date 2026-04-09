@@ -247,10 +247,6 @@ Malformed entries are quarantined into `addressbook_invalid.json` during startup
 However, if the overall file is severely corrupted or contains values that violate model constraints, the app may still fail to load some entries. It is recommended to keep a backup before editing the data file manually.
 </div>
 
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
