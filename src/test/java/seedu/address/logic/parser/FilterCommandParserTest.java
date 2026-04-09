@@ -38,6 +38,18 @@ public class FilterCommandParserTest {
     }
 
     @Test
+    public void parse_unexpectedPreamble_throwsParseException() {
+        assertParseFailure(parser, "oops -interviewed y",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_duplicateInterviewedPrefix_throwsParseException() {
+        assertParseFailure(parser, "-interviewed y -interviewed n",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+    }
+
+    @Test
     public void parse_prefixPresentButNoValue_throwsParseException() {
         // prefix with no value after it
         assertParseFailure(parser, "-interviewed",

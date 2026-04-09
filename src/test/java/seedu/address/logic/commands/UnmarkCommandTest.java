@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -91,6 +92,11 @@ public class UnmarkCommandTest {
     public void execute_alreadyUnmarkedPerson_throwsCommandException() {
         UnmarkCommand unmarkCommand = new UnmarkCommand(INDEX_FIRST_PERSON);
         assertCommandFailure(unmarkCommand, model, UnmarkCommand.MESSAGE_ALREADY_UNMARKED);
+    }
+
+    @Test
+    public void constructor_nullIndex_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new UnmarkCommand(null));
     }
 
     @Test
