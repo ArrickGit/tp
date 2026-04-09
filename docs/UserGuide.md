@@ -66,7 +66,7 @@ RecruiterPlus is a **desktop app for managing contacts, optimized for use via a 
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+Prints a help message with a description of all commands, as well as a link to this User Guide.
 
 ![help message](images/helpMessage.png)
 
@@ -147,9 +147,10 @@ Examples:
 
 Finds persons whose names match any of the given filters.
 
-Format: `filter -interviewed y/n/1/0`
+Format: `filter -interviewed INTERVIEWED_STATUS`
 
 * The filter will be done on all persons, not only the currently listed ones.
+* Accepted values for `INTERVIEWED_STATUS` are `y/n/1/0`.
 
 Examples:
 * `filter -interviewed y` returns persons who are marked as interviewed.
@@ -168,7 +169,7 @@ Format: `delete INDEX [MORE_INDEXES]... | all`
 * Multiple indexes can be specified to delete several candidates at once.
 * Duplicate indexes are not allowed.
 * Use `all` to delete all currently displayed candidates.
-* `delete all` on an empty list will show an error message.
+* `delete INDEX` or `delete all` on an empty list will show an error message.
 
 Examples:
 * `delete 2` deletes the 2nd person in the recruiterplus.
@@ -215,6 +216,7 @@ Format: `remark INDEX [REMARK]`
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
 * An existing remark will be overwritten by the new remark.
+* A valid remark can consist of zero or more alphanumeric characters (letters and digits), spaces, and the following symbols: `. , ! ? ' " ( ) - / : @ # $ % & + * = [ ]`
 
 Examples:
 * `remark 1 Strong in algorithms.` adds the remark "Strong in algorithms." to the 1st candidate.
@@ -259,7 +261,7 @@ However, if the overall file is severely corrupted or contains values that viola
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+2. **If you minimize the Help Window** and then open it again via the `Help` menu, or the keyboard shortcut `F1`, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 --------------------------------------------------------------------------------------------------------------------
 
