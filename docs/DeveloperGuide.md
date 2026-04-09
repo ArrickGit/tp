@@ -174,6 +174,36 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Command parameter constraints
+
+The table below summarizes the key parameter constraints enforced by the parser and model classes.
+
+| Command | Parameter constraints |
+|---------|-----------------------|
+| `add` | Requires `-name`, `-phone`, `-email`, and `-address`. `-tag` is optional and repeatable. `Name` must contain only letters and spaces and start with a letter. `Phone` must be exactly 8 digits. `Email` must satisfy the existing email validation and be at most 100 characters. `Address` must be at most 50 characters and may contain letters, digits, spaces, commas, periods, hyphens, hashes and slashes. `Tag` must be alphanumeric. |
+| `edit` | Requires a positive integer index and at least one field to edit. `-name`, `-phone`, `-email`, and `-address` follow the same constraints as `add`. `-tag` is repeatable, but it replaces the full tag set instead of appending. |
+| `delete` | Accepts one or more positive integer indexes or the keyword `all`. Duplicate indexes are rejected. |
+| `mark` | Requires a positive integer index. The target person must exist in the current filtered list and must not already be marked as interviewed. |
+| `unmark` | Requires a positive integer index. The target person must exist in the current filtered list and must already be marked as interviewed. The constructor also defensively rejects a null index. |
+| `find` | Requires at least one keyword. Search is name-only and case-insensitive; fuzzy and partial-word matching are supported. |
+| `filter` | Requires exactly one `-interviewed` prefix with value `y`, `n`, `1`, or `0`. Unexpected preamble text and duplicate `-interviewed` prefixes are rejected. |
+| `remark` | Requires a positive integer index. The remark text is optional and may be empty to clear it. Remarks are limited to 120 characters and may contain only letters, digits, spaces, and the punctuation `. , ! ? ' -`. Remarks cannot start with another command prefix such as `-name` or `-tag`. |
+| `list`, `help`, `clear`, `exit` | No parameters are required. Extraneous arguments are ignored by design. |
+
+### Filter command hardening
+
+The `filter` command uses `FilterCommandParser` to enforce strict input validation before a command object is created.
+
+Validation rules:
+* Exactly one `-interviewed` prefix must be present.
+* The prefix value must be one of `y`, `n`, `1`, or `0`.
+* Any unexpected preamble before the prefix is rejected.
+* Duplicate `-interviewed` prefixes are rejected.
+
+These checks prevent ambiguous inputs such as `filter hello -interviewed y` or `filter -interviewed y -interviewed n` from being interpreted silently.
+
+The parser behavior is covered by `FilterCommandParserTest` to prevent regressions.
+
 ### Remark feature
 The *Remark* feature allows recruiters to add, edit, or remove remarks associated with a candidate.
 This is useful for storing additional qualitative notes such as interview impressions or technical strengths.
