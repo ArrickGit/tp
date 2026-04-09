@@ -32,7 +32,7 @@ public class UnmarkCommand extends Command {
      * Creates an UnmarkCommand to unmark the person at {@code targetIndex}.
      */
     public UnmarkCommand(Index targetIndex) {
-        requireNonNull(targetIndex);
+        requireNonNull(targetIndex, "targetIndex must not be null");
         this.targetIndex = targetIndex;
     }
 

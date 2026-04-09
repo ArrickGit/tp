@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import seedu.address.commons.core.index.Index;
@@ -17,6 +18,7 @@ public class UnmarkCommandParser implements Parser<UnmarkCommand> {
      * @throws ParseException if the user input does not conform to the expected format
      */
     public UnmarkCommand parse(String args) throws ParseException {
+        requireNonNull(args, "MarkCommandParser args must not be null");
         try {
             Index index = ParserUtil.parseIndex(args);
             return new UnmarkCommand(index);

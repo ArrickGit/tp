@@ -32,7 +32,7 @@ public class MarkCommand extends Command {
      * Creates a MarkCommand to mark the person at {@code targetIndex} as interviewed.
      */
     public MarkCommand(Index targetIndex) {
-        requireNonNull(targetIndex);
+        requireNonNull(targetIndex, "targetIndex must not be null");
         this.targetIndex = targetIndex;
     }
 

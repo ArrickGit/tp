@@ -12,7 +12,7 @@ public class Address {
     public static final String MESSAGE_CONSTRAINTS =
             "Addresses must be at most 50 characters long and may only contain "
             + "English letters (A-Z, a-z), digits (0-9), spaces, and the following "
-            + "punctuation: , . - # /. The address must not be blank.";
+            + "punctuation: , . - # / '. The address must not be blank.";
 
     /*
      * Address rules:
@@ -21,7 +21,7 @@ public class Address {
      *   hyphens, hash signs, and forward slashes.
      * - Maximum length is 50 characters.
      */
-    public static final String VALIDATION_REGEX = "[A-Za-z0-9][A-Za-z0-9 ,.\\-#/]{0,49}";
+    public static final String VALIDATION_REGEX = "[A-Za-z0-9][A-Za-z0-9 ,.\\-#/\\']{0,49}";
 
     public final String value;
 
