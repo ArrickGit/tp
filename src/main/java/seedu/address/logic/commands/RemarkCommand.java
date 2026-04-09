@@ -34,8 +34,9 @@ public class RemarkCommand extends Command {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Remark can be empty to clear it."
-                + " Otherwise, it must contain only letters, digits, spaces and basic punctuation, "
-                + "and be at most " + MAX_REMARK_LENGTH + " characters long.";
+            + " Otherwise, it must contain only letters, digits, spaces and the below symbols, "
+            + "and be at most " + MAX_REMARK_LENGTH + " characters long."
+            + "\n . , ! ? ' \" ( ) - / : @ # $ % & + * = [ ]";
 
     private static final Pattern REMARK_REGEX =
             Pattern.compile("[\\p{Alnum} .,!?'\"()\\-/:@#$%&+*=\\[\\]\n]{0,500}");
