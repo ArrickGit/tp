@@ -239,20 +239,23 @@ The following sequence diagram illustrates the interaction between components wh
 The remark feature also uses two supporting class diagram:
 
 ![ParserClass](images/ParserClass-Remark.png)
-**`RemarkCommandParser` implements the
+
+
+`RemarkCommandParser` implements the
 generic `Parser` interface to process user input.
 It validates the input and if the format or
 content is incorrect,
-throws `ParserException` when the  input is invalid.**
+throws `ParserException` when the  input is invalid.
 
 ![RemarkClass](images/RemarkClass.png)
-**`RemarkCommand` extends `Command` and encapsulates
+
+`RemarkCommand` extends `Command` and encapsulates
 its own feature-specific logic.
 It defines constants like `MAX_REMARK_LENGTH` and
 `MESSAGE_CONSTRAINTS` to enforce input rules,
 and provide a validation method `isValidRemark(String)`
 to ensure remarks meet those constraints
-before execution.**
+before execution.
 
 #### Design consideration
 
