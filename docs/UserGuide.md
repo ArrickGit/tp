@@ -108,6 +108,8 @@ Format: `edit INDEX [-name NAME] [-phone PHONE] [-email EMAIL] [-address ADDRESS
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* Remarks cannot be edited using `edit`.
+* To update a remark, use `remark INDEX [REMARK]` and re-enter the full updated remark.
 
 #### Updating of tags
 * Using the `-tag` option will **replace all existing tags** with the newly specified tags.
@@ -210,13 +212,14 @@ Examples:
 
 ### Adding a remark to a candidate : `remark`
 
-Adds or edits a remark for the specified candidate.
+Adds a new remark or replaces an existing remark for the specified candidate.
 
 Format: `remark INDEX [REMARK]`
 
-* Adds or edits the remark of the candidate at the specified `INDEX`.
+* Adds a remark for the candidate at the specified `INDEX`, or replaces the existing remark.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
+* To update a remark, re-enter the full updated remark. Partial edits are not supported.
 * An existing remark will be overwritten by the new remark.
 * A valid remark can consist of zero or more alphanumeric characters (letters and digits), spaces, and the following symbols: `. , ! ? ' " ( ) - / : @ # $ % & + * = [ ]`
 
