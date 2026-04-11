@@ -79,6 +79,8 @@ Adds a person to the recruiterplus.
 
 Format: `add -name NAME -phone PHONE_NUMBER -email EMAIL -address ADDRESS -tag TAG…​`
 * At least the `-name`, `-phone`, `-email` and `-address` fields must be provided.
+* A candidate is considered a duplicate if either `-phone` or `-email` already exists.
+* Candidates can share the same name, but both `-phone` and `-email` must each be different from existing candidates.
 * The `-tag` field is optional.
 * The `-tag` field can be used multiple times to add multiple tags to a person. Eg: `-tag friend -tag colleague` adds the tags `friend` and `colleague` to the person.
 

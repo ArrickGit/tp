@@ -37,10 +37,10 @@ public class TypicalPersons {
             .withEmail("cornelia@example.com").withAddress("10th street").withTags("friends").build();
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("94822242")
             .withEmail("werner@example.com").withAddress("michegan ave").build();
-    public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("95352563")
+    public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("95352565")
             .withEmail("lydia@example.com").withAddress("little tokyo").build();
-    public static final Person AVA = new PersonBuilder().withName("Ava Kunz").withPhone("95352563")
-            .withEmail("lydia@example.com").withAddress("little tokyo").build();
+    public static final Person AVA = new PersonBuilder().withName("Ava Kunz").withPhone("95352564")
+            .withEmail("ava@example.com").withAddress("little tokyo").build();
     public static final Person GEORGE = new PersonBuilder().withName("George Best").withPhone("94824422")
             .withEmail("anna@example.com").withAddress("4th street").build();
 
