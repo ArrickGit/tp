@@ -396,6 +396,22 @@ Use case ends.
 
    Use case ends.
 
+**Use case: View candidates**
+
+**MSS**
+
+1. User requests to list candidates using `list`.
+2. RecruiterPlus shows a list of all candidates.
+
+Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+   * 2a1. RecruiterPlus shows "No candidates saved!".
+
+   Use case ends.
+
 **Use case: Delete a candidate**
 
 **MSS**
@@ -407,6 +423,8 @@ Use case ends.
 5. RecruiterPlus updates the GUI and shows a success message.
 
 Use case ends.
+
+**Extends:** Use case: View candidates, 2a (list is empty)
 
 **Extensions**
 
@@ -430,22 +448,6 @@ Use case ends.
 
    Use case resumes at step 2.
 
-**Use case: View candidates**
-
-**MSS**
-
-1. User requests to list candidates using `list`.
-2. RecruiterPlus shows a list of all candidates.
-
-Use case ends.
-
-**Extensions**
-
-* 2a. The list is empty.
-   * 2a1. RecruiterPlus shows "No candidates saved!".
-
-   Use case ends.
-
 **Use case: Mark a candidate as interviewed**
 
 **MSS**
@@ -457,6 +459,8 @@ Use case ends.
 5. RecruiterPlus updates the GUI and shows a success message.
 
 Use case ends.
+
+**Extends:** Use case: View candidates, 2a (list is empty)
 
 **Extensions**
 
@@ -491,6 +495,8 @@ Use case ends.
 5. RecruiterPlus updates the GUI and shows a success message.
 
 Use case ends.
+
+**Extends:** Use case: View candidates, 2a (list is empty)
 
 **Extensions**
 
