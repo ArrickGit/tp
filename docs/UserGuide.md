@@ -276,6 +276,7 @@ Action | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [-name NAME] [-phone PHONE_NUMBER] [-email EMAIL] [-address ADDRESS] [-tag TAG]…​`<br> e.g.,`edit 2 -name James Lee -email jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Filter** | `filter -interviewed INTERVIEWED_STATUS`<br> e.g., `filter -interviewed y`
 **Mark** | `mark INDEX`<br> e.g., `mark 1`
 **Unmark** | `unmark INDEX`<br> e.g., `unmark 1`
 **Remark** | `remark INDEX [REMARK]`<br> e.g., `remark 1 Strong in algorithms.`
