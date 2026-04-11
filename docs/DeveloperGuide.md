@@ -563,19 +563,12 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. Shutdown using the `exit` command
+1. Shutdown using the `exit` or `bye` command
 
     1. Launch the app.
    
-    1. Execute `exit`.<br>
+    1. Execute `exit` or `bye`.<br>
    Expected: The application closes successfully.
-
-1. Shutdown using the `bye` alias
-
-    1. Launch the app.
-
-    1. Execute `bye`.<br>
-       Expected: The application closes successfully.
 
 ### Deleting a person
 
