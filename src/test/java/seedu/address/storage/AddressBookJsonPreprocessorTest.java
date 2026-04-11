@@ -38,7 +38,7 @@ public class AddressBookJsonPreprocessorTest {
                   "persons": [
                    {
                      "name" : "John Doe",
-                     "phone" : "12345678",
+                     "phone" : "82345678",
                      "email" : "john@test.com",
                      "address" : "Tampines Ave 1",
                      "interviewed" : true,
@@ -96,7 +96,7 @@ public class AddressBookJsonPreprocessorTest {
                   "persons" : [
                    {
                      "name" : "John Doe",
-                     "phone" : "12345678",
+                     "phone" : "82345678",
                      "email" : "john@test.com",
                      "address" : "Tampines Ave 1",
                      "interviewed" : "yes"
@@ -124,7 +124,7 @@ public class AddressBookJsonPreprocessorTest {
                   "persons" : [
                    {
                      "name" : "John Doe",
-                     "phone" : "12345678",
+                     "phone" : "82345678",
                      "email" : "john@test.com",
                      "address" : "Tampines Ave 1",
                      "interviewed" : "maybe"
@@ -227,7 +227,7 @@ public class AddressBookJsonPreprocessorTest {
                   "persons": [
                    {
                      "name" : "John Doe",
-                     "phone" : "12345678",
+                     "phone" : "82345678",
                      "email" : "john@test.com",
                      "address" : "Tampines Ave 1",
                      "interviewed" : true,
@@ -306,7 +306,7 @@ public class AddressBookJsonPreprocessorTest {
         String malformed = """
             {
               "persons": [
-                { "name": "John", "phone": "12345678", "email": "j@test.com",
+                { "name": "John", "phone": "82345678", "email": "j@test.com",
                   "address": "Addr", "interviewed": true
               ]
             }
@@ -329,7 +329,7 @@ public class AddressBookJsonPreprocessorTest {
         String malformed = """
             {
               "persons": [
-                { "name": "John", "phone": "12345678", "email": "j@test.com",
+                { "name": "John", "phone": "82345678", "email": "j@test.com",
                   "address": "Addr", "interviewed": true
               ]
             }

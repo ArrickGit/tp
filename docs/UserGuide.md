@@ -79,6 +79,7 @@ Adds a person to the recruiterplus.
 
 Format: `add -name NAME -phone PHONE_NUMBER -email EMAIL -address ADDRESS -tag TAG…​`
 * At least the `-name`, `-phone`, `-email` and `-address` fields must be provided.
+* `PHONE_NUMBER` must be exactly 8 digits and start with `8` or `9`.
 * The `-tag` field is optional.
 * The `-tag` field can be used multiple times to add multiple tags to a person. Eg: `-tag friend -tag colleague` adds the tags `friend` and `colleague` to the person.
 
@@ -88,7 +89,7 @@ A person can have any number of tags (including 0)
 
 Examples:
 * `add -name John Doe -phone 98765432 -email johnd@example.com -address John street, block 123, #01-01`
-* `add -name Betsy Crowe -tag friend -email betsycrowe@example.com -address Newgate Prison -phone 12345678 -tag criminal`
+* `add -name Betsy Crowe -tag friend -email betsycrowe@example.com -address Newgate Prison -phone 92345678 -tag criminal`
 * `add -name Bo Yang -phone 87654321 -email boyang@example.com -address Bo's street, block 321, #01-02 -tag colleague -tag friend` to add multiple tags, use -tag [TAG] multiple times.
 
 ### Listing all persons : `list`
@@ -106,6 +107,7 @@ Format: `edit INDEX [-name NAME] [-phone PHONE] [-email EMAIL] [-address ADDRESS
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* If `-phone` is provided, it must be exactly 8 digits and start with `8` or `9`.
 
 #### Updating of tags
 * Using the `-tag` option will **replace all existing tags** with the newly specified tags.
@@ -269,7 +271,7 @@ However, if the overall file is severely corrupted or contains values that viola
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add -name NAME -phone PHONE_NUMBER -email EMAIL -address ADDRESS [-tag TAG]…​` <br> e.g., `add -name James Ho -phone 22224444 -email jamesho@example.com -address 123, Clementi Rd, 1234665 -tag friend -tag colleague`
+**Add** | `add -name NAME -phone PHONE_NUMBER -email EMAIL -address ADDRESS [-tag TAG]…​` <br> e.g., `add -name James Ho -phone 92224444 -email jamesho@example.com -address 123, Clementi Rd, 1234665 -tag friend -tag colleague`
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [-name NAME] [-phone PHONE_NUMBER] [-email EMAIL] [-address ADDRESS] [-tag TAG]…​`<br> e.g.,`edit 2 -name James Lee -email jameslee@example.com`
