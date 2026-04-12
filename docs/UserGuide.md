@@ -254,7 +254,7 @@ RecruiterPlus data are saved in the hard disk automatically after any command th
 
 ### Editing the data file
 
-RecruiterPlus data are saved automatically as a JSON file `[JAR file location]/data/recruiterplus.json`. Advanced users are welcome to update data directly by editing that data file.
+RecruiterPlus data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 Malformed entries are quarantined into `addressbook_invalid.json` during startup preprocessing, while valid entries are kept in the main data file. This helps prevent silent data loss when only some records are invalid.<br>
