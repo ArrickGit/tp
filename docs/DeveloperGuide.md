@@ -372,6 +372,12 @@ Use case ends.
 
    Use case ends.
 
+* 2f. Input too long / parser overflow.
+    * 2f1. RecruiterPlus shows:
+        * Error: Input too long. Name must be at most 80 characters; email at most 254 characters.
+
+  Use case ends.
+
 * 3a. Candidate is a duplicate by name (case-insensitive).
   * 3a1. RecuiterPlus shows:
     * This person already exists in the address book
@@ -390,11 +396,6 @@ Use case ends.
 
    Use case ends.
 
-* 2f. Input too long / parser overflow.
-   * 2f1. RecruiterPlus shows:
-      * Error: Input too long. Name must be at most 80 characters; email max 254
-
-   Use case ends.
 
 **Use case: View candidates**
 

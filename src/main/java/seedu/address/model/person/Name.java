@@ -9,9 +9,12 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Name {
 
+    private static final int MAX_LENGTH = 80;
+
     public static final String MESSAGE_CONSTRAINTS =
             "Names should only contain English letters (A-Z, a-z) and spaces, "
-            + "and it should not be blank. No digits or special characters are allowed.";
+            + "and it should not be blank. No digits or special characters are allowed."
+            + "Name must be at most " + MAX_LENGTH + " characters long.";
 
     /*
      * The first character must be an English letter (A-Za-z).
@@ -35,9 +38,11 @@ public class Name {
 
     /**
      * Returns true if a given string is a valid name.
+     * Name must match the alphanumeric regex and not exceed {@code MAX_LENGTH} characters.
      */
     public static boolean isValidName(String test) {
-        return test.matches(VALIDATION_REGEX);
+        requireNonNull(test);
+        return test.matches(VALIDATION_REGEX) && test.length() <= MAX_LENGTH;
     }
 
 
