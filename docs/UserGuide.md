@@ -19,7 +19,12 @@ RecruiterPlus is a **desktop app for managing contacts, optimized for use via a 
 
 3. Copy the file to the folder you want to use as the _home folder_ for your RecruiterPlus.
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar recruiterplus.jar` command to run the application.<br>
+4. Open a command terminal, then navigate to the folder containing `recruiterplus.jar`.
+   `cd` means "change directory" (move into a folder).
+   Type these commands in the terminal:
+   * macOS/Linux: `cd /path/to/your/folder`
+   * Windows: `cd C:\path\to\your\folder`
+   * Then run: `java -jar recruiterplus.jar`<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
