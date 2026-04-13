@@ -9,8 +9,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Email {
 
-    private static final String SPECIAL_CHARACTERS = "+_.-";
+    public static final String SPECIAL_CHARACTERS = "+_.-";
     public static final int MAX_EMAIL_LENGTH = 254;
+
     public static final String MESSAGE_CONSTRAINTS = "Emails must contain '@' and be at most "
             + MAX_EMAIL_LENGTH + " characters long. "
             + "Format: local-part@domain, where:\n"
@@ -33,6 +34,7 @@ public class Email {
             + "(-" + ALPHANUMERIC_NO_UNDERSCORE + ")*";
     private static final String DOMAIN_LAST_PART_REGEX = "(" + DOMAIN_PART_REGEX + "){2,}$"; // At least two chars
     private static final String DOMAIN_REGEX = "(" + DOMAIN_PART_REGEX + "\\.)*" + DOMAIN_LAST_PART_REGEX;
+
     public static final String VALIDATION_REGEX = LOCAL_PART_REGEX + "@" + DOMAIN_REGEX;
 
     public final String value;
