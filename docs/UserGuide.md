@@ -73,20 +73,21 @@ Prints a help message with a description of all commands, as well as a link to t
 Format: `help`
 
 
-### Adding a person: `add`
+### Adding a candidate: `add`
 
-Adds a person to the recruiterplus.
+Adds a candidate to the recruiterplus.
 
 Format: `add -name NAME -phone PHONE_NUMBER -email EMAIL -address ADDRESS -tag TAG…​`
 * At least the `-name`, `-phone`, `-email` and `-address` fields must be provided.
 * A candidate is considered a duplicate if either `-phone` or `-email` already exists.
 * Candidates can share the same name, but both `-phone` and `-email` must each be different from existing candidates.
+* If a duplicate is detected, RecruiterPlus shows a duplicate-candidate error message.
 * `PHONE_NUMBER` must be exactly 8 digits and start with `8` or `9`.
 * The `-tag` field is optional.
-* The `-tag` field can be used multiple times to add multiple tags to a person. Eg: `-tag friend -tag colleague` adds the tags `friend` and `colleague` to the person.
+* The `-tag` field can be used multiple times to add multiple tags to a candidate. Eg: `-tag friend -tag colleague` adds the tags `friend` and `colleague` to the candidate.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
+A candidate can have any number of tags (including 0)
 </div>
 
 Examples:
@@ -94,27 +95,24 @@ Examples:
 * `add -name Betsy Crowe -tag friend -email betsycrowe@example.com -address Newgate Prison -phone 92345678 -tag criminal`
 * `add -name Bo Yang -phone 87654321 -email boyang@example.com -address Bo's street, block 321, #01-02 -tag colleague -tag friend` to add multiple tags, use -tag [TAG] multiple times.
 
-### Listing all persons : `list`
+### Listing all candidates : `list`
 
-Shows a list of all persons in the recruiterplus.
+Shows a list of all candidates in the recruiterplus.
 
 Format: `list`
 
-### Editing a person : `edit`
+### Editing a candidate : `edit`
 
-Edits an existing person in the recruiterplus.
+Edits an existing candidate in the recruiterplus.
 
 Format: `edit INDEX [-name NAME] [-phone PHONE] [-email EMAIL] [-address ADDRESS] [-tag TAG]…​`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the candidate at the specified `INDEX`. The index refers to the index number shown in the displayed candidate list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-<<<<<<< HEAD
 * If `-phone` is provided, it must be exactly 8 digits and start with `8` or `9`.
-=======
 * Remarks cannot be edited using `edit`.
 * To update a remark, use `remark INDEX [REMARK]` and re-enter the full updated remark.
->>>>>>> upstream/master
 
 #### Updating of tags
 * Using the `-tag` option will **replace all existing tags** with the newly specified tags.
@@ -124,17 +122,17 @@ Format: `edit INDEX [-name NAME] [-phone PHONE] [-email EMAIL] [-address ADDRESS
 * To add multiple tags, use `-tag [TAG]` multiple times.
 
 Examples:
-*  `edit 1 -phone 91234567 -email johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 -name Betsy Crower -tag` Edits the name of the 2nd person to be `Betsy Crower` and **removes all existing
+*  `edit 1 -phone 91234567 -email johndoe@example.com` Edits the phone number and email address of the 1st candidate to be `91234567` and `johndoe@example.com` respectively.
+*  `edit 2 -name Betsy Crower -tag` Edits the name of the 2nd candidate to be `Betsy Crower` and **removes all existing
    tags.**
-*  `edit 3 -tag friend -tag colleague` Edits the tags of the 3rd person to be `friend` and `colleague`.
+*  `edit 3 -tag friend -tag colleague` Edits the tags of the 3rd candidate to be `friend` and `colleague`.
 * 
 #### Note:
 >> The `-tag` field does not add to existing tags.<br> Always re-enter tags you wish to keep, or they will be lost.
 
-### Locating persons by name: `find`
+### Locating candidates by name: `find`
 
-Finds persons whose names contain any of the given keywords.
+Finds candidates whose names contain any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
@@ -143,7 +141,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Partial word matching is supported e.g. `Han` will match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
+* Candidates matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
@@ -152,6 +150,7 @@ Examples:
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 * `find aled` returns `Alex Yeoh`<br> ![result for 'find aled'](images/findAledResult.png)
 
+### Filtering candidates by interview status: `filter`
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 Because `find` uses fuzzy and partial matching,
@@ -159,39 +158,37 @@ it may return multiple similar or loosely matching results, which
 may require manual filtering.
 </div>
 
-### Filtering persons by interview status: `filter`
-
-Finds persons by interviewed status.
+Finds candidates by interviewed status.
 
 Format: `filter -interviewed INTERVIEWED_STATUS`
 
-* The filter will be done on all persons, not only the currently listed ones.
+* The filter will be done on all candidates, not only the currently listed ones.
 * Accepted values for `INTERVIEWED_STATUS` are `y/n/1/0`.
 * Name-based filtering is not supported by `filter`. Use `find` for name filtering.
 
 Examples:
-* `filter -interviewed y` returns persons who are marked as interviewed.
-* `filter -interviewed 0` returns persons who are <u>not</u> marked as interviewed.
+* `filter -interviewed y` returns candidates who are marked as interviewed.
+* `filter -interviewed 0` returns candidates who are <u>not</u> marked as interviewed.
   ![result for 'filter -interviewed 1'](images/FilterCommandExample.png)
 
-### Deleting a person : `delete`
+### Deleting a candidate : `delete`
 
-Deletes the specified person(s) from the recruiterplus.
+Deletes the specified candidate(s) from the recruiterplus.
 
 Format: `delete INDEX [MORE_INDEXES]... | all`
 
-* Deletes the person(s) at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
+* Deletes the candidate(s) at the specified `INDEX`.
+* The index refers to the index number shown in the displayed candidate list.
 * The index **must be a positive integer** 1, 2, 3, …​
 * Multiple indexes can be specified to delete several candidates at once.
 * Duplicate indexes are not allowed.
 * Use `all` to delete all currently displayed candidates.
-* `delete INDEX` or `delete all` on an empty list will show an error message.
+* `delete INDEX` or `delete all` on an empty list shows: `No candidates to delete — the list is empty.`
 
 Examples:
-* `delete 2` deletes the 2nd person in the recruiterplus.
-* `delete 1 3 5` deletes the 1st, 3rd and 5th persons in the displayed list.
-* `find Betsy` followed by `delete all` deletes all persons in the results of the `find` command.
+* `delete 2` deletes the 2nd candidate in the recruiterplus.
+* `delete 1 3 5` deletes the 1st, 3rd and 5th candidates in the displayed list.
+* `find Betsy` followed by `delete all` deletes all candidates in the results of the `find` command.
 
 ### Marking a candidate as interviewed : `mark`
 
@@ -200,7 +197,7 @@ Marks the specified candidate as interviewed.
 Format: `mark INDEX`
 
 * Marks the candidate at the specified `INDEX` as interviewed.
-* The index refers to the index number shown in the displayed person list.
+* The index refers to the index number shown in the displayed candidate list.
 * The index **must be a positive integer** 1, 2, 3, …​
 * A candidate that has already been marked as interviewed cannot be marked again.
 
@@ -215,7 +212,7 @@ Unmarks the specified candidate as interviewed.
 Format: `unmark INDEX`
 
 * Unmarks the candidate at the specified `INDEX` as not interviewed.
-* The index refers to the index number shown in the displayed person list.
+* The index refers to the index number shown in the displayed candidate list.
 * The index **must be a positive integer** 1, 2, 3, …​
 * A candidate that is already marked as not interviewed cannot be unmarked again.
 
@@ -230,7 +227,7 @@ Adds a new remark or replaces an existing remark for the specified candidate.
 Format: `remark INDEX [REMARK]`
 
 * Adds a remark for the candidate at the specified `INDEX`, or replaces the existing remark.
-* The index refers to the index number shown in the displayed person list.
+* The index refers to the index number shown in the displayed candidate list.
 * The index **must be a positive integer** 1, 2, 3, …​
 * To update a remark, re-enter the full updated remark. Partial edits are not supported.
 * An existing remark will be overwritten by the new remark.

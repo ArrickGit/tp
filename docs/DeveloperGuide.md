@@ -102,7 +102,7 @@ How the `Logic` component works:
 
 1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).<br>
+1. The command can communicate with the `Model` when it is executed (e.g. to delete a candidate).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
@@ -180,11 +180,11 @@ The table below summarizes the key parameter constraints enforced by the parser 
 
 | Command | Parameter constraints                                                                                                                                                                                                                                                                                                                                                                                                                        |
 |---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `add` | Requires `-name`, `-phone`, `-email`, and `-address`. `-tag` is optional and repeatable. `Name` must contain only letters and spaces and start with a letter. `Phone` must be exactly 8 digits. `Email` must satisfy the existing email validation and be at most 100 characters. `Address` must be at most 50 characters and may contain letters, digits, spaces, commas, periods, hyphens, hashes and slashes. `Tag` must be alphanumeric. |
+| `add` | Requires `-name`, `-phone`, `-email`, and `-address`. `-tag` is optional and repeatable. `Name` must contain only letters and spaces and start with a letter, and be at most 80 characters. `Phone` must be exactly 8 digits and start with `8` or `9`. `Email` must satisfy the existing email validation and be at most 254 characters. `Address` must be at most 50 characters and may contain letters, digits, spaces, commas, periods, hyphens, hashes and slashes. `Tag` must be alphanumeric. |
 | `edit` | Requires a positive integer index and at least one field to edit. `-name`, `-phone`, `-email`, and `-address` follow the same constraints as `add`. `-tag` is repeatable, but it replaces the full tag set instead of appending.                                                                                                                                                                                                             |
 | `delete` | Accepts one or more positive integer indexes or the keyword `all`. Duplicate indexes are rejected.                                                                                                                                                                                                                                                                                                                                           |
-| `mark` | Requires a positive integer index. The target person must exist in the current filtered list and must not already be marked as interviewed.                                                                                                                                                                                                                                                                                                  |
-| `unmark` | Requires a positive integer index. The target person must exist in the current filtered list and must already be marked as interviewed. The constructor also defensively rejects a null index.                                                                                                                                                                                                                                               |
+| `mark` | Requires a positive integer index. The target candidate must exist in the current filtered list and must not already be marked as interviewed.                                                                                                                                                                                                                                                                                                  |
+| `unmark` | Requires a positive integer index. The target candidate must exist in the current filtered list and must already be marked as interviewed. The constructor also defensively rejects a null index.                                                                                                                                                                                                                                               |
 | `find` | Requires at least one keyword. Search is name-only and case-insensitive; fuzzy and partial-word matching are supported.                                                                                                                                                                                                                                                                                                                      |
 | `filter` | Requires exactly one `-interviewed` prefix with value `y`, `n`, `1`, or `0`. Unexpected preamble text and duplicate `-interviewed` prefixes are rejected.                                                                                                                                                                                                                                                                                    |
 | `remark` | Requires a positive integer index. The remark text is optional and may be empty to clear it. Remarks are limited to 120 characters and may contain only letters, digits, spaces, and the following symbols: . , ! ? ' " ( ) - / : @ # $ % & + * = [ ] and newlines. Remarks cannot start with another command prefix such as `-name` or `-tag`.                                                                                              |
@@ -308,9 +308,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | ----- |------------------------|-------------------------------------------------------|------------------------------------------------------------------------|
 | `* * *` | technical recuiter | mark candidate as interviewed                         | mark candidates who have been interviewed                              |
 | `* * *` | forgetful technical recuiter | see usage instructions                                | refer to instructions when I forget how to use the App                 |
-| `* * *` | technical recuiter          | add a new person                                      |                                                                        |
-| `* * *` | technical recuiter          | delete a person                                       | remove entries that I no longer need                                   |
-| `* * *` | technical recuiter          | find a person by name                                 | locate details of persons without having to go through the entire list |
+| `* * *` | technical recuiter          | add a new candidate                                   |                                                                        |
+| `* * *` | technical recuiter          | delete a candidate                                    | remove entries that I no longer need                                   |
+| `* * *` | technical recuiter          | find a candidate by name                              | locate details of candidates without having to go through the entire list |
 | `* *` | technical recuiter          | filter candidates by interview status                 | see which interviewees have not been interviewed                       |
 | `* *`   | technical recuiter          | search candidates by skills                           | save time performing repetitive tasks                                  |
 | `* *`  | technical recuiter      | search candidates using keywords or technical skills  | locate relevant contacts                                               |
@@ -328,7 +328,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1. User requests to add a candidate with name, phone, and email.
 2. RecruiterPlus validates the input parameters.
-3. RecruiterPlus checks that the candidate is not a duplicate by name (case-insensitive).
+3. RecruiterPlus checks that the candidate is not a duplicate by phone or email.
 4. RecruiterPlus saves the candidate details (with interviewed set to unmarked by default).
 5. RecruiterPlus updates the GUI to show the newly added candidate and increments the candidate count.
 6. RecruiterPlus shows a success message.
@@ -339,9 +339,8 @@ Use case ends.
 
 * 2a. Missing required parameter(s).
    * 2a1. RecruiterPlus shows the relevant error message:
-      * Missing Required Parameter: -name
-      * Missing required parameter: -phone
-      * Missing required parameter: -email
+   * Invalid command format!
+   * (followed by `add` usage details)
 
    Use case ends.
 
@@ -355,32 +354,31 @@ Use case ends.
 
 * 2c. Invalid/empty name (after trimming; includes "only spaces").
   * 2c1. RecruiterPlus shows:
-    * Names should only contain English letters (A-Z, a-z) and spaces, and it should not be blank. No digits or 
-      special characters are allowed.
+         * Names should only contain English letters (A-Z, a-z) and spaces, and it should not be blank. No digits or special characters are allowed.Name must be at most 80 characters long.
 
   Use case ends.
 
 * 2d. Invalid phone number.
   * 2d1.RecruiterPlus shows:
-    * Phone numbers must contain exactly 8 digits (0-9). No spaces, dashes, or other characters are allowed.
+   * Phone numbers must contain exactly 8 digits (0-9), and start with 8 or 9. No spaces, dashes, or other characters are allowed.
 
    Use case ends.
 
 * 2e. Invalid email.
    * 2e1. RecruiterPlus shows:
-      * Invalid email: must be a valid email address (e.g. name@example.com) with no spaces.
+   * Emails must contain '@' and be at most 254 characters long. (full email format constraints are shown)
 
    Use case ends.
 
 * 2f. Input too long / parser overflow.
     * 2f1. RecruiterPlus shows:
-        * Error: Input too long. Name must be at most 80 characters; email at most 254 characters.
+      * the corresponding field constraint message (e.g., name/email length constraints)
 
   Use case ends.
 
-* 3a. Candidate is a duplicate by name (case-insensitive).
+* 3a. Candidate duplicates an existing candidate by phone or email.
   * 3a1. RecuiterPlus shows:
-    * This person already exists in the address book
+      * duplicate-candidate error message
 
    Use case ends.
 
@@ -435,17 +433,17 @@ Use case ends.
    Use case ends.
 
 * 3a. Invalid format.
-   * 3a1. RecruiterPlus shows: ERROR: Invalid format! Usage: delete <id>
+   * 3a1. RecruiterPlus shows: Invalid command format! (followed by `delete` usage details)
 
    Use case ends.
 
 * 3b. Invalid ID (not a non-negative integer).
-   * 3b1. RecruiterPlus shows: ERROR: Invalid ID. Ensure ID is a non-negative integer
+   * 3b1. RecruiterPlus shows: Invalid command format! (followed by `delete` usage details)
 
    Use case ends.
 
 * 4a. ID not found.
-   * 4a1. RecruiterPlus shows: ERROR: ID not found
+   * 4a1. RecruiterPlus shows: invalid candidate index error message
 
    Use case resumes at step 2.
 
@@ -471,17 +469,17 @@ Use case ends.
    Use case ends.
 
 * 3a. Invalid format.
-   * 3a1. RecruiterPlus shows: ERROR: Invalid format! Usage: mark <id>
+   * 3a1. RecruiterPlus shows: Invalid command format! (followed by `mark` usage details)
 
    Use case ends.
 
 * 3b. Invalid ID (not a non-negative integer).
-   * 3b1. RecruiterPlus shows: ERROR: Invalid ID. Ensure ID is a non-negative integer
+   * 3b1. RecruiterPlus shows: Invalid command format! (followed by `mark` usage details)
 
    Use case ends.
 
 * 4a. ID not found.
-   * 4a1. RecruiterPlus shows: ERROR: ID not found
+   * 4a1. RecruiterPlus shows: invalid candidate index error message
 
    Use case resumes at step 2.
 
@@ -507,24 +505,24 @@ Use case ends.
   Use case ends.
 
 * 3a. Invalid format.
-   * 3a1. RecruiterPlus shows: ERROR: Invalid format! Usage: remark <id> <remark>
+   * 3a1. RecruiterPlus shows: Invalid command format! (followed by `remark` usage details)
 
   Use case ends.
 
 * 3b. Invalid ID (not a non-negative integer).
-    * 3b1. RecruiterPlus shows: ERROR: Invalid ID. Ensure ID is a non-negative integer
+   * 3b1. RecruiterPlus shows: Invalid command format! (followed by `remark` usage details)
 
   Use case ends.
 
 * 4a. ID not found.
-    * 4a1. RecruiterPlus shows: ERROR: ID not found
+   * 4a1. RecruiterPlus shows: invalid candidate index error message
 
   Use case resumes at step 2.
 
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+2.  Should be able to hold up to 1000 candidates without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 
 ### Glossary
@@ -571,11 +569,11 @@ testers are expected to do more *exploratory* testing.
     1. Execute `exit` or `bye`.<br>
    Expected: The application closes successfully.
 
-### Deleting a person
+### Deleting a candidate
 
-1. Deleting a person while all persons are being shown
+1. Deleting a candidate while all candidates are being shown
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+   1. Prerequisites: List all candidates using the `list` command. Multiple candidates in the list.
 
    1. Test case: `delete 1`<br>
       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
@@ -588,7 +586,7 @@ testers are expected to do more *exploratory* testing.
       Candidates outside the filtered list remain untouched.
 
    1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+      Expected: No candidate is deleted. Error details shown in the status message. Status bar remains the same.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
