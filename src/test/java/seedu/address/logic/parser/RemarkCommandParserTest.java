@@ -47,6 +47,12 @@ public class RemarkCommandParserTest {
     }
 
     @Test
+    public void parse_validRemarkStartingWithAddPrefix_success() {
+        assertParseSuccess(parser, "1 -name mismatch with resume",
+                new RemarkCommand(INDEX_FIRST_PERSON, new Remark("-name mismatch with resume")));
+    }
+
+    @Test
     public void parse_tooLongRemark_throwsParseException() {
         String longRemark = String.join("", Collections.nCopies(RemarkCommand.MAX_REMARK_LENGTH + 1, "a"));
         assertParseFailure(parser, "1 " + longRemark, RemarkCommand.MESSAGE_CONSTRAINTS);

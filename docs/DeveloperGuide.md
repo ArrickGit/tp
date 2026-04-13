@@ -187,7 +187,7 @@ The table below summarizes the key parameter constraints enforced by the parser 
 | `unmark` | Requires a positive integer index. The target candidate must exist in the current filtered list and must already be marked as interviewed. The constructor also defensively rejects a null index.                                                                                                                                                                                                                                               |
 | `find` | Requires at least one keyword. Search is name-only and case-insensitive; fuzzy and partial-word matching are supported.                                                                                                                                                                                                                                                                                                                      |
 | `filter` | Requires exactly one `-interviewed` prefix with value `y`, `n`, `1`, or `0`. Unexpected preamble text and duplicate `-interviewed` prefixes are rejected.                                                                                                                                                                                                                                                                                    |
-| `remark` | Requires a positive integer index. The remark text is optional and may be empty to clear it. Remarks are limited to 120 characters and may contain only letters, digits, spaces, and the following symbols: . , ! ? ' " ( ) - / : @ # $ % & + * = [ ] and newlines. Remarks cannot start with another command prefix such as `-name` or `-tag`.                                                                                              |
+| `remark` | Requires a positive integer index. The remark text is optional and may be empty to clear it. Remarks are limited to 120 characters and may contain only letters, digits, spaces, and the following symbols: . , ! ? ' " ( ) - / : @ # $ % & + * = [ ] and newlines. Remarks cannot start with another command prefix such as `-name` or `-tag`; this prevents ambiguous parsing and reduces accidental command-syntax misuse in free-text remarks.                                                                                              |
 | `list`, `help`, `clear`, `exit` | No parameters are required. Extraneous arguments are ignored by design.                                                                                                                                                                                                                                                                                                                                                                      |
 
 ### Filter command hardening
@@ -219,7 +219,7 @@ the following steps occur:
 3. `RemarkCommandParser` extracts and validates:
     * the target `Index`
     * the raw remark string after the index, without requiring a prefix
-    * the remark string against the feature constraints
+   * the remark string against the feature constraints (including rejecting text that starts with command-like prefixes, to avoid ambiguity with CLI syntax)
 4. A `RemarkCommand` object is created
 5. During execution, `RemarkCommand`:
     * retrieves the target `Person` from the filtered list in the `Model`
