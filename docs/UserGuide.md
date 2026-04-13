@@ -233,7 +233,7 @@ Format: `remark INDEX [REMARK]`
 * An existing remark will be overwritten by the new remark.
 * Using `remark INDEX` without specifying any remark text removes the existing remark.
 * A valid remark can consist of zero or more alphanumeric characters (letters and digits), spaces, and the following symbols: `. , ! ? ' " ( ) - / : @ # $ % & + * = [ ]`
-* For input safety, remarks that begin with command-style prefixes (for example `-name`, `-phone`, `-email`, `-address`, `-tag`, `-remark`, `-interviewed`) are rejected to prevent ambiguity and accidental misuse of command syntax.
+* Everything after `INDEX` is treated as remark text (subject to remark character and length constraints).
 
 Examples:
 * `remark 1 Strong in algorithms.` adds the remark "Strong in algorithms." to the 1st candidate.

@@ -18,11 +18,6 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
 
     private static final Logger logger = LogsCenter.getLogger(RemarkCommandParser.class);
 
-    // Prefixes that are not valid remark content — user likely made a syntax mistake
-    private static final String[] DISALLOWED_REMARK_PREFIXES = {
-        "-name", "-phone", "-email", "-address", "-tag", "-remark", "-interviewed"
-    };
-
     /**
      * Parses the given {@code String} of arguments in the context of the RemarkCommand
      * and returns a RemarkCommand object for execution.
@@ -30,8 +25,7 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
      * @param args the raw argument string from user input; must not be null
      * @return a new {@code RemarkCommand} with the parsed index and remark
      * @throws ParseException if args is null, empty, contains an invalid index,
-     *     a remark beginning with a recognised command prefix, or a remark that
-     *     fails character/length validation
+    *     or a remark that fails character/length validation
      */
     public RemarkCommand parse(String args) throws ParseException {
         // Defensive: guard against null before any processing
@@ -72,19 +66,6 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
 
         assert remarkValue != null : "Remark value must not be null after extraction";
         logger.fine("RemarkCommandParser: raw remark value = '" + remarkValue + "'");
-
-        // Defensive: check if user accidentally started remark with a command prefix
-        // Fixed: use exact prefix + space or exact prefix match to avoid rejecting
-        // valid remarks like "-remarkably strong candidate"
-        for (String disallowedPrefix : DISALLOWED_REMARK_PREFIXES) {
-            if (remarkValue.equals(disallowedPrefix)
-                    || remarkValue.startsWith(disallowedPrefix + " ")) {
-                logger.info("RemarkCommandParser: remark value starts with disallowed prefix '"
-                        + disallowedPrefix + "' — likely a syntax mistake");
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE));
-            }
-        }
 
         // Defensive: validate remark content against allowed characters and length
         if (!RemarkCommand.isValidRemark(remarkValue)) {
