@@ -107,7 +107,8 @@ Edits an existing candidate in the recruiterplus.
 
 Format: `edit INDEX [-name NAME] [-phone PHONE] [-email EMAIL] [-address ADDRESS] [-tag TAG]…​`
 
-* Edits the candidate at the specified `INDEX`. The index refers to the index number shown in the displayed candidate list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the candidate at the specified `INDEX`. The index refers to the index number shown in the displayed candidate list.
+* `INDEX` must be a non-negative integer. If `INDEX` is `0` or larger than the displayed list size, RecruiterPlus shows an invalid index error.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * If `-phone` is provided, it must be exactly 8 digits and start with `8` or `9`.

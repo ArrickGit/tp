@@ -35,9 +35,14 @@ public class EditCommandParser implements Parser<EditCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
 
         Index index;
+        String preamble = argMultimap.getPreamble().trim();
 
         try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            if (preamble.matches("0+")) {
+                index = Index.fromZeroBased(Integer.MAX_VALUE);
+            } else {
+                index = ParserUtil.parseIndex(preamble);
+            }
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
