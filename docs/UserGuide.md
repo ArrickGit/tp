@@ -81,6 +81,7 @@ Format: `add -name NAME -phone PHONE_NUMBER -email EMAIL -address ADDRESS -tag T
 * At least the `-name`, `-phone`, `-email` and `-address` fields must be provided.
 * A candidate is considered a duplicate if either `-phone` or `-email` already exists.
 * Candidates can share the same name, but both `-phone` and `-email` must each be different from existing candidates.
+* If a duplicate is detected, RecruiterPlus shows: `This person already exists in the address book`.
 * `PHONE_NUMBER` must be exactly 8 digits and start with `8` or `9`.
 * The `-tag` field is optional.
 * The `-tag` field can be used multiple times to add multiple tags to a person. Eg: `-tag friend -tag colleague` adds the tags `friend` and `colleague` to the person.
@@ -109,12 +110,9 @@ Format: `edit INDEX [-name NAME] [-phone PHONE] [-email EMAIL] [-address ADDRESS
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-<<<<<<< HEAD
 * If `-phone` is provided, it must be exactly 8 digits and start with `8` or `9`.
-=======
 * Remarks cannot be edited using `edit`.
 * To update a remark, use `remark INDEX [REMARK]` and re-enter the full updated remark.
->>>>>>> upstream/master
 
 #### Updating of tags
 * Using the `-tag` option will **replace all existing tags** with the newly specified tags.
@@ -179,7 +177,7 @@ Format: `delete INDEX [MORE_INDEXES]... | all`
 * Multiple indexes can be specified to delete several candidates at once.
 * Duplicate indexes are not allowed.
 * Use `all` to delete all currently displayed candidates.
-* `delete INDEX` or `delete all` on an empty list will show an error message.
+* `delete INDEX` or `delete all` on an empty list shows: `No candidates to delete — the list is empty.`
 
 Examples:
 * `delete 2` deletes the 2nd person in the recruiterplus.

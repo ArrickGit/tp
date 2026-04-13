@@ -180,7 +180,7 @@ The table below summarizes the key parameter constraints enforced by the parser 
 
 | Command | Parameter constraints                                                                                                                                                                                                                                                                                                                                                                                                                        |
 |---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `add` | Requires `-name`, `-phone`, `-email`, and `-address`. `-tag` is optional and repeatable. `Name` must contain only letters and spaces and start with a letter. `Phone` must be exactly 8 digits. `Email` must satisfy the existing email validation and be at most 100 characters. `Address` must be at most 50 characters and may contain letters, digits, spaces, commas, periods, hyphens, hashes and slashes. `Tag` must be alphanumeric. |
+| `add` | Requires `-name`, `-phone`, `-email`, and `-address`. `-tag` is optional and repeatable. `Name` must contain only letters and spaces and start with a letter, and be at most 80 characters. `Phone` must be exactly 8 digits and start with `8` or `9`. `Email` must satisfy the existing email validation and be at most 254 characters. `Address` must be at most 50 characters and may contain letters, digits, spaces, commas, periods, hyphens, hashes and slashes. `Tag` must be alphanumeric. |
 | `edit` | Requires a positive integer index and at least one field to edit. `-name`, `-phone`, `-email`, and `-address` follow the same constraints as `add`. `-tag` is repeatable, but it replaces the full tag set instead of appending.                                                                                                                                                                                                             |
 | `delete` | Accepts one or more positive integer indexes or the keyword `all`. Duplicate indexes are rejected.                                                                                                                                                                                                                                                                                                                                           |
 | `mark` | Requires a positive integer index. The target person must exist in the current filtered list and must not already be marked as interviewed.                                                                                                                                                                                                                                                                                                  |
@@ -328,7 +328,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1. User requests to add a candidate with name, phone, and email.
 2. RecruiterPlus validates the input parameters.
-3. RecruiterPlus checks that the candidate is not a duplicate by name (case-insensitive).
+3. RecruiterPlus checks that the candidate is not a duplicate by phone or email.
 4. RecruiterPlus saves the candidate details (with interviewed set to unmarked by default).
 5. RecruiterPlus updates the GUI to show the newly added candidate and increments the candidate count.
 6. RecruiterPlus shows a success message.
@@ -339,9 +339,8 @@ Use case ends.
 
 * 2a. Missing required parameter(s).
    * 2a1. RecruiterPlus shows the relevant error message:
-      * Missing Required Parameter: -name
-      * Missing required parameter: -phone
-      * Missing required parameter: -email
+   * Invalid command format!
+   * (followed by `add` usage details)
 
    Use case ends.
 
@@ -355,30 +354,29 @@ Use case ends.
 
 * 2c. Invalid/empty name (after trimming; includes "only spaces").
   * 2c1. RecruiterPlus shows:
-    * Names should only contain English letters (A-Z, a-z) and spaces, and it should not be blank. No digits or 
-      special characters are allowed.
+         * Names should only contain English letters (A-Z, a-z) and spaces, and it should not be blank. No digits or special characters are allowed.Name must be at most 80 characters long.
 
   Use case ends.
 
 * 2d. Invalid phone number.
   * 2d1.RecruiterPlus shows:
-    * Phone numbers must contain exactly 8 digits (0-9). No spaces, dashes, or other characters are allowed.
+   * Phone numbers must contain exactly 8 digits (0-9), and start with 8 or 9. No spaces, dashes, or other characters are allowed.
 
    Use case ends.
 
 * 2e. Invalid email.
    * 2e1. RecruiterPlus shows:
-      * Invalid email: must be a valid email address (e.g. name@example.com) with no spaces.
+   * Emails must contain '@' and be at most 254 characters long. (full email format constraints are shown)
 
    Use case ends.
 
 * 2f. Input too long / parser overflow.
     * 2f1. RecruiterPlus shows:
-        * Error: Input too long. Name must be at most 80 characters; email at most 254 characters.
+      * the corresponding field constraint message (e.g., name/email length constraints)
 
   Use case ends.
 
-* 3a. Candidate is a duplicate by name (case-insensitive).
+* 3a. Candidate duplicates an existing candidate by phone or email.
   * 3a1. RecuiterPlus shows:
     * This person already exists in the address book
 
@@ -435,17 +433,17 @@ Use case ends.
    Use case ends.
 
 * 3a. Invalid format.
-   * 3a1. RecruiterPlus shows: ERROR: Invalid format! Usage: delete <id>
+   * 3a1. RecruiterPlus shows: Invalid command format! (followed by `delete` usage details)
 
    Use case ends.
 
 * 3b. Invalid ID (not a non-negative integer).
-   * 3b1. RecruiterPlus shows: ERROR: Invalid ID. Ensure ID is a non-negative integer
+   * 3b1. RecruiterPlus shows: Invalid command format! (followed by `delete` usage details)
 
    Use case ends.
 
 * 4a. ID not found.
-   * 4a1. RecruiterPlus shows: ERROR: ID not found
+   * 4a1. RecruiterPlus shows: The person index provided is invalid
 
    Use case resumes at step 2.
 
@@ -471,17 +469,17 @@ Use case ends.
    Use case ends.
 
 * 3a. Invalid format.
-   * 3a1. RecruiterPlus shows: ERROR: Invalid format! Usage: mark <id>
+   * 3a1. RecruiterPlus shows: Invalid command format! (followed by `mark` usage details)
 
    Use case ends.
 
 * 3b. Invalid ID (not a non-negative integer).
-   * 3b1. RecruiterPlus shows: ERROR: Invalid ID. Ensure ID is a non-negative integer
+   * 3b1. RecruiterPlus shows: Invalid command format! (followed by `mark` usage details)
 
    Use case ends.
 
 * 4a. ID not found.
-   * 4a1. RecruiterPlus shows: ERROR: ID not found
+   * 4a1. RecruiterPlus shows: The person index provided is invalid
 
    Use case resumes at step 2.
 
@@ -507,17 +505,17 @@ Use case ends.
   Use case ends.
 
 * 3a. Invalid format.
-   * 3a1. RecruiterPlus shows: ERROR: Invalid format! Usage: remark <id> <remark>
+   * 3a1. RecruiterPlus shows: Invalid command format! (followed by `remark` usage details)
 
   Use case ends.
 
 * 3b. Invalid ID (not a non-negative integer).
-    * 3b1. RecruiterPlus shows: ERROR: Invalid ID. Ensure ID is a non-negative integer
+   * 3b1. RecruiterPlus shows: Invalid command format! (followed by `remark` usage details)
 
   Use case ends.
 
 * 4a. ID not found.
-    * 4a1. RecruiterPlus shows: ERROR: ID not found
+   * 4a1. RecruiterPlus shows: The person index provided is invalid
 
   Use case resumes at step 2.
 
