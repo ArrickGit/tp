@@ -326,7 +326,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User requests to add a candidate with name, phone, and email.
+1. User requests to add a candidate with name, phone, email and address.
 2. RecruiterPlus validates the input parameters.
 3. RecruiterPlus checks that the candidate is not a duplicate by phone or email.
 4. RecruiterPlus saves the candidate details (with interviewed set to unmarked by default).
@@ -349,6 +349,7 @@ Use case ends.
       * Parameter -name specified more than once
       * Parameter -phone specified more than once
       * Parameter -email specified more than once
+      * Parameter -address specified more than once
 
    Use case ends.
 
