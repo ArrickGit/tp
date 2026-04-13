@@ -79,6 +79,7 @@ Adds a candidate to the recruiterplus.
 
 Format: `add -name NAME -phone PHONE_NUMBER -email EMAIL -address ADDRESS -tag TAG…​`
 * At least the `-name`, `-phone`, `-email` and `-address` fields must be provided.
+* The fields may be specified in any order.
 * A candidate is considered a duplicate if either `-phone` or `-email` already exists.
 * Candidates can share the same name, but both `-phone` and `-email` must each be different from existing candidates.
 * If a duplicate is detected, RecruiterPlus shows a duplicate-candidate error message.
